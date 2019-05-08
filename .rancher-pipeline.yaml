@@ -27,7 +27,7 @@ stages:
         service.type: ClusterIP
         slave.replicas: "2"
       name: user-srv-mariadb
-      targetNamespace: api
+      targetNamespace: srv
 - name: Deploy
   steps:
   - applyYamlConfig:
