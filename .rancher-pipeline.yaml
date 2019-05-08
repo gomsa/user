@@ -27,7 +27,7 @@ stages:
         service.type: ClusterIP
         slave.replicas: "2"
       name: user-srv-mariadb
-      targetNamespace: gomsa
+      targetNamespace: api
 - name: Deploy
   steps:
   - applyYamlConfig:
