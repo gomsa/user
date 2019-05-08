@@ -7,8 +7,7 @@ stages:
         mkdir -p /go/src/github.com/gomsa
         ln -s `pwd` /go/src/github.com/gomsa/user-srv
         cd /go/src/github.com/gomsa/user-srv
-        export GOPROXY=https://goproxy.io
-        go get
+        GO111MODULE=off
         CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o bin/service
         go test -cover
 - name: Publish
