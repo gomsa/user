@@ -1,3 +1,3 @@
-module github.com/gomsa/user-service
+module github.com/gomsa/user-srv
 
 go 1.12
