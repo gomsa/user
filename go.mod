@@ -9,6 +9,7 @@ require (
 	github.com/jinzhu/gorm v1.9.5
 	github.com/micro/go-log v0.1.0
 	github.com/micro/go-micro v1.1.0
+	github.com/micro/go-plugins v0.25.0
 	github.com/micro/kubernetes v0.7.0
 	github.com/satori/go.uuid v1.2.0
 	golang.org/x/crypto v0.0.0-20190426145343-a29dc8fdc734
