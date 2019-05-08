@@ -40,7 +40,7 @@ func TestUserIsExist(t *testing.T) {
 	}
 	res := &userPB.Response{}
 	err := h.Create(context.TODO(), req, res)
-	// fmt.Println(req, res, err)
+	// fmt.Println(req, res.Valid, err)
 	t.Log(req, res, err)
 }
 func TestUserGet(t *testing.T) {
