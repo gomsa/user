@@ -1,0 +1,61 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: user-srv
+  namespace: srv
+spec:
+  selector:
+    app: user-srv
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 8080
+      name: micro
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-srv
+  namespace: srv
+  labels:
+    app: user-srv
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: user-srv
+  template:
+    metadata:
+      labels:
+        app: user-srv
+    spec:
+      imagePullSecrets:
+      - name: pipeline-docker-registry
+      containers:
+      - name: user-srv
+        image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+        imagePullPolicy: Always
+        command: [
+          "service",
+          "--selector=static",
+          "--server_address=:8080",
+        ]
+        env:
+          - name: APP_KEY
+            value: "4RpKymtlXbizEQ8rOzHM3YybOrQuLya"
+          - name: DB_HOST
+            value: "user-srv-mariadb-mariadb"
+          - name: DB_USER
+            value: "user-srv"
+          - name: DB_NAME
+            value: "user-srv"
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: mariadb-password
+                name: user-srv-mariadb-mariadb
+        ports:
+        - containerPort: 8080
+          name: micro
+          protocol: TCP
