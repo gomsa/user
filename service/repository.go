@@ -26,7 +26,7 @@ type UserRepository struct {
 // Create 创建用户
 // bug 无用户名创建用户可能引起 bug
 func (repo *UserRepository) Create(user *pb.User) (*pb.User, error) {
-	if is := repo.IsExist(user); is == true {
+	if exist := repo.IsExist(user); exist == true {
 		return user, fmt.Errorf("注册用户已存在")
 	}
 	err := repo.DB.Create(user).Error
