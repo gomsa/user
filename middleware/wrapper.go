@@ -3,17 +3,14 @@ package auth
 import (
 	"context"
 	"errors"
-	"log"
 	"strings"
 
 	authClient "github.com/gomsa/user-srv/client"
 	authPb "github.com/gomsa/user-srv/proto/auth"
-	"github.com/gomsa/mpwechat-service/providers/config"
 
 	"github.com/micro/go-micro/metadata"
 	"github.com/micro/go-micro/server"
 )
-
 
 // AuthWrapper 是一个高阶函数，入参是 ”下一步“ 函数，出参是认证函数
 // 在返回的函数内部处理完认证逻辑后，再手动调用 fn() 进行下一步处理
@@ -28,12 +25,12 @@ func AuthWrapper(fn server.HandlerFunc) server.HandlerFunc {
 		// Note this is now uppercase (not entirely sure why this is...)
 		token := strings.Split(meta["Authorization"], "Bearer ")[1]
 		// Auth here
-		authResp, err := authClient.Auth.ValidatePermission(context.Background(), &authPb.Request{
+		authResp, err := authClient.Auth.ValidateToken(context.Background(), &authPb.Request{
 			Token:   token,
 			Service: req.Service(),
 			Method:  req.Method(),
 		})
-		if err != nil {
+		if err != nil && authResp.Valid == false {
 			return err
 		}
 		err = fn(ctx, req, resp)
