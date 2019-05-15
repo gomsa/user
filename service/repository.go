@@ -13,7 +13,7 @@ import (
 //Repository 仓库接口
 type Repository interface {
 	Create(user *pb.User) (*pb.User, error)
-	IsExist(user *pb.User) bool
+	Exist(user *pb.User) bool
 	Get(user *pb.User) (*pb.User, error)
 	GetAll() ([]*pb.User, error)
 }
@@ -26,7 +26,7 @@ type UserRepository struct {
 // Create 创建用户
 // bug 无用户名创建用户可能引起 bug
 func (repo *UserRepository) Create(user *pb.User) (*pb.User, error) {
-	if exist := repo.IsExist(user); exist == true {
+	if exist := repo.Exist(user); exist == true {
 		return user, fmt.Errorf("注册用户已存在")
 	}
 	err := repo.DB.Create(user).Error
@@ -38,8 +38,8 @@ func (repo *UserRepository) Create(user *pb.User) (*pb.User, error) {
 	return user, nil
 }
 
-// IsExist 检测用户是否已经存在
-func (repo *UserRepository) IsExist(user *pb.User) bool {
+// Exist 检测用户是否已经存在
+func (repo *UserRepository) Exist(user *pb.User) bool {
 	var count int
 	if user.Name != "" {
 		repo.DB.Model(&user).Where("name = ?", user.Name).Count(&count)

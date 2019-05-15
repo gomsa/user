@@ -33,9 +33,9 @@ func (srv *User) Create(ctx context.Context, req *pb.User, res *pb.Response) (er
 	return err
 }
 
-// IsExist 用户是否存在
-func (srv *User) IsExist(ctx context.Context, req *pb.User, res *pb.Response) (err error) {
-	res.Valid = srv.Repo.IsExist(req)
+// Exist 用户是否存在
+func (srv *User) Exist(ctx context.Context, req *pb.User, res *pb.Response) (err error) {
+	res.Valid = srv.Repo.Exist(req)
 	return err
 }
 
