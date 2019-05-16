@@ -3,7 +3,6 @@ package middleware
 import (
 	"context"
 	"errors"
-	"fmt"
 	"strings"
 
 	"github.com/micro/go-micro/metadata"
@@ -28,7 +27,6 @@ func (h *Handler) Wrapper(fn server.HandlerFunc) server.HandlerFunc {
 		for _, p := range h.Permissions {
 			// 访问的服务和方法匹配时验证 Auth 插件是否需要用户授权 如果需要验证则检测响应权限
 			if p.Service == req.Service() && p.Service == req.Method() && p.Auth {
-				fmt.Println(req.Service(), req.Method(), p.Auth)
 				meta, ok := metadata.FromContext(ctx)
 				if !ok {
 					return errors.New("no auth meta-data found in request")
