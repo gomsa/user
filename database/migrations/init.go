@@ -16,7 +16,7 @@ func user() {
 		db.DB.Exec(`
 			CREATE TABLE users (
 			id varchar(36) NOT NULL,
-			name varchar(64) DEFAULT NULL,
+			username varchar(64) DEFAULT NULL,
 			mobile varchar(11) DEFAULT NULL,
 			email varchar(64) DEFAULT NULL,
 			password varchar(128) DEFAULT NULL,

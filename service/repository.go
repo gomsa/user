@@ -41,8 +41,8 @@ func (repo *UserRepository) Create(user *pb.User) (*pb.User, error) {
 // Exist 检测用户是否已经存在
 func (repo *UserRepository) Exist(user *pb.User) bool {
 	var count int
-	if user.Name != "" {
-		repo.DB.Model(&user).Where("name = ?", user.Name).Count(&count)
+	if user.Username != "" {
+		repo.DB.Model(&user).Where("username = ?", user.Username).Count(&count)
 		if count > 0 {
 			return true
 		}
@@ -69,8 +69,8 @@ func (repo *UserRepository) Get(user *pb.User) (*pb.User, error) {
 			return nil, err
 		}
 	}
-	if user.Name != "" {
-		if err := repo.DB.Model(&user).Where("name = ?", user.Name).Find(&user).Error; err != nil {
+	if user.Username != "" {
+		if err := repo.DB.Model(&user).Where("username = ?", user.Username).Find(&user).Error; err != nil {
 			return nil, err
 		}
 	}

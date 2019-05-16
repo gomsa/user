@@ -43,7 +43,7 @@ func (srv *Auth) Auth(ctx context.Context, req *pb.User, res *pb.Token) (err err
 	// 将无法通过验证
 	user, err := srv.Repo.Get(&userPb.User{
 		Id:     req.Id,
-		Name:   req.Name,
+		Username:   req.Username,
 		Email:  req.Email,
 		Mobile: req.Mobile,
 	})
