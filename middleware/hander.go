@@ -26,21 +26,25 @@ func (h *Handler) Wrapper(fn server.HandlerFunc) server.HandlerFunc {
 	return func(ctx context.Context, req server.Request, resp interface{}) (err error) {
 		for _, p := range h.Permissions {
 			// 访问的服务和方法匹配时验证 Auth 插件是否需要用户授权 如果需要验证则检测响应权限
-			if p.Service == req.Service() && p.Service == req.Method() && p.Auth {
+			if p.Service == req.Service() && p.Method == req.Method() && p.Auth == true {
 				meta, ok := metadata.FromContext(ctx)
 				if !ok {
 					return errors.New("no auth meta-data found in request")
 				}
-				// Note this is now uppercase (not entirely sure why this is...)
-				token := strings.Split(meta["Authorization"], "Bearer ")[1]
-				// Auth here
-				authResp, err := authClient.Auth.ValidateToken(context.Background(), &authPb.Request{
-					Token:   token,
-					Service: req.Service(),
-					Method:  req.Method(),
-				})
-				if err != nil || authResp.Valid == false {
-					return err
+				if _, ok := meta["authorization"]; ok {
+					// Note this is now uppercase (not entirely sure why this is...)
+					token := strings.Split(meta["authorization"], "Bearer ")[1]
+					// Auth here
+					authResp, err := authClient.Auth.ValidateToken(context.Background(), &authPb.Request{
+						Token:   token,
+						Service: req.Service(),
+						Method:  req.Method(),
+					})
+					if err != nil || authResp.Valid == false {
+						return err
+					}
+				} else {
+					return errors.New("Empty authorization")
 				}
 			}
 		}
