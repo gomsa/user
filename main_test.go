@@ -17,11 +17,10 @@ func TestUserCreate(t *testing.T) {
 	repo := &service.UserRepository{db.DB}
 	h := hander.User{repo}
 	req := &userPB.User{
-		Name:     `bvbv0111`,
-		Password: `1234asdasdasdasdasdas561234asdasdasdasdasdas561234asdasdasdasdasdas561234asdasdasdasdasdas561234asdasdasdasdasdas56`,
+		Username: `bvbv0111`,
+		Password: `123456`,
 		Mobile:   `13953186114`,
 		Email:    `bvbv0a1@qq.com`,
-		Origin:   `user-srv`,
 	}
 	res := &userPB.Response{}
 	err := h.Create(context.TODO(), req, res)
@@ -33,10 +32,10 @@ func TestUserIsExist(t *testing.T) {
 	repo := &service.UserRepository{db.DB}
 	h := hander.User{repo}
 	req := &userPB.User{
-		Name:   `bvbv0111`,
-		Mobile: `13953186114`,
-		Email:  `bvbv0a1@qq.com`,
-		Origin: `user-srv`,
+		Username: `bvbv0111`,
+		Mobile:   `13953186114`,
+		Email:    `bvbv0a1@qq.com`,
+		Origin:   `user-srv`,
 	}
 	res := &userPB.Response{}
 	err := h.Create(context.TODO(), req, res)
@@ -47,7 +46,7 @@ func TestUserGet(t *testing.T) {
 	repo := &service.UserRepository{db.DB}
 	h := hander.User{repo}
 	req := &userPB.User{
-		Name: `bvbv011`,
+		Username: `bvbv011`,
 	}
 	res := &userPB.Response{}
 	err := h.Get(context.TODO(), req, res)
@@ -70,7 +69,7 @@ func TestAuth(t *testing.T) {
 	token := &service.TokenService{}
 	h := hander.Auth{token, repo}
 	req := &authPB.User{
-		Name:     `bvbv01`,
+		Username: `bvbv01`,
 		Password: `123456`,
 	}
 	res := &authPB.Token{}

@@ -8,8 +8,7 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-xorm/xorm v0.7.1 // indirect
 	github.com/golang/protobuf v1.3.1
-	github.com/gomsa/mpwechat-service v0.0.0-20190114022441-3a3735c27e5d // indirect
-	github.com/gomsa/tools v0.0.0-20190515085635-ead2207c60fb
+	github.com/gomsa/tools v0.0.0-20190517032518-6b8a14b58a04
 	github.com/jinzhu/gorm v1.9.5
 	github.com/mattn/go-colorable v0.1.1 // indirect
 	github.com/micro/go-log v0.1.0

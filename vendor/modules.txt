@@ -13,7 +13,7 @@ github.com/golang/protobuf/ptypes
 github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
-# github.com/gomsa/tools v0.0.0-20190515085635-ead2207c60fb
+# github.com/gomsa/tools v0.0.0-20190517032518-6b8a14b58a04
 github.com/gomsa/tools/k8s/client
 github.com/gomsa/tools/env
 github.com/gomsa/tools/gorm
