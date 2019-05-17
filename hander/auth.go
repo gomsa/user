@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 
+	"github.com/micro/go-log"
 	"golang.org/x/crypto/bcrypt"
 
 	pb "github.com/gomsa/user-srv/proto/auth"
@@ -50,6 +51,7 @@ func (srv *Auth) Auth(ctx context.Context, req *pb.User, res *pb.Token) (err err
 	if err != nil {
 		return err
 	}
+	log.Log(user, req)
 	// 进行密码验证
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password)); err != nil {
 		return err
