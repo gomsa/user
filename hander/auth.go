@@ -42,10 +42,10 @@ func (srv *Auth) Auth(ctx context.Context, req *pb.User, res *pb.Token) (err err
 	// 即 req.Password 与 u.Password 都是加密后的密码
 	// 将无法通过验证
 	user, err := srv.Repo.Get(&userPb.User{
-		Id:     req.Id,
-		Username:   req.Username,
-		Email:  req.Email,
-		Mobile: req.Mobile,
+		Id:       req.Id,
+		Username: req.Username,
+		Email:    req.Email,
+		Mobile:   req.Mobile,
 	})
 	if err != nil {
 		return err

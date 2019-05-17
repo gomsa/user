@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	_ "github.com/gomsa/user-srv/database/migrations"
@@ -69,12 +70,12 @@ func TestAuth(t *testing.T) {
 	token := &service.TokenService{}
 	h := hander.Auth{token, repo}
 	req := &authPB.User{
-		Username: `bvbv01`,
+		Username: `bvbv0111`,
 		Password: `123456`,
 	}
 	res := &authPB.Token{}
 	err := h.Auth(context.TODO(), req, res)
-	// fmt.Println(req, res, err)
+	fmt.Println(req, res, err)
 	t.Log(req, res, err)
 }
 
