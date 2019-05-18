@@ -16,10 +16,7 @@ import (
 func TestC(t *testing.T) {
 	// ctx := context.Background()
 	// ctx = context.WithValue(ctx, "key", "test")
-	// if v := ctx.Value("key"); v != nil {
-	// 	fmt.Println("found value:", v)
-	// 	return
-	// }
+	// fmt.Println(ctx.Value("key"))
 }
 func TestUserCreate(t *testing.T) {
 	repo := &service.UserRepository{db.DB}
