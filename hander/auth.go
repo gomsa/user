@@ -6,6 +6,7 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
+	"github.com/gomsa/tools/uitl"
 	pb "github.com/gomsa/user-srv/proto/auth"
 	userPb "github.com/gomsa/user-srv/proto/user"
 	"github.com/gomsa/user-srv/service"
@@ -26,7 +27,11 @@ func (srv *Auth) AuthById(ctx context.Context, req *pb.User, res *pb.Token) (err
 	if err != nil {
 		return err
 	}
-	t, err := srv.TokenService.Encode(user)
+	err = uitl.Data2Data(user, req)
+	if err != nil {
+		return err
+	}
+	t, err := srv.TokenService.Encode(req)
 	if err != nil {
 		return err
 	}
@@ -54,7 +59,11 @@ func (srv *Auth) Auth(ctx context.Context, req *pb.User, res *pb.Token) (err err
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password)); err != nil {
 		return err
 	}
-	t, err := srv.TokenService.Encode(user)
+	err = uitl.Data2Data(user, req)
+	if err != nil {
+		return err
+	}
+	t, err := srv.TokenService.Encode(req)
 	if err != nil {
 		return err
 	}
@@ -73,6 +82,7 @@ func (srv *Auth) ValidateToken(ctx context.Context, req *pb.Request, res *pb.Tok
 	if claims.User.Id == "" {
 		return errors.New("invalid user")
 	}
+	res.User = claims.User
 	res.Valid = true
 	return err
 }

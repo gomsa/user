@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"testing"
 
 	_ "github.com/gomsa/user-srv/database/migrations"
@@ -14,14 +13,27 @@ import (
 	"github.com/gomsa/user-srv/service"
 )
 
+func TestC(t *testing.T) {
+	// ctx := context.Background()
+	// ctx = context.WithValue(ctx, "key", "test")
+	// if v := ctx.Value("key"); v != nil {
+	// 	fmt.Println("found value:", v)
+	// 	return
+	// }
+}
 func TestUserCreate(t *testing.T) {
 	repo := &service.UserRepository{db.DB}
 	h := hander.User{repo}
 	req := &userPB.User{
-		Username: `bvbv0111`,
-		Password: `123456`,
-		Mobile:   `13953186114`,
-		Email:    `bvbv0a1@qq.com`,
+		Username:     `bvbv0111`,
+		Password:     `123456`,
+		Mobile:       `13953186114`,
+		Email:        `bvbv0a1@qq.com`,
+		Name:         `bvbv0111`,
+		Introduction: `I am a super administrator`,
+		Avatar:       `https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif`,
+		Roles:        `admin,editor`,
+		Origin:       `user-srv`,
 	}
 	res := &userPB.Response{}
 	err := h.Create(context.TODO(), req, res)
@@ -36,7 +48,6 @@ func TestUserIsExist(t *testing.T) {
 		Username: `bvbv0111`,
 		Mobile:   `13953186114`,
 		Email:    `bvbv0a1@qq.com`,
-		Origin:   `user-srv`,
 	}
 	res := &userPB.Response{}
 	err := h.Create(context.TODO(), req, res)
@@ -44,6 +55,18 @@ func TestUserIsExist(t *testing.T) {
 	t.Log(req, res, err)
 }
 func TestUserGet(t *testing.T) {
+	repo := &service.UserRepository{db.DB}
+	h := hander.User{repo}
+	req := &userPB.User{
+		Username: `bvbv011`,
+	}
+	res := &userPB.Response{}
+	err := h.Get(context.TODO(), req, res)
+	// fmt.Println(res, err)
+	t.Log(req, res, err)
+}
+
+func TestUserInfo(t *testing.T) {
 	repo := &service.UserRepository{db.DB}
 	h := hander.User{repo}
 	req := &userPB.User{
@@ -75,7 +98,7 @@ func TestAuth(t *testing.T) {
 	}
 	res := &authPB.Token{}
 	err := h.Auth(context.TODO(), req, res)
-	fmt.Println(req, res, err)
+	// fmt.Println(req, res, err)
 	t.Log(req, res, err)
 }
 
