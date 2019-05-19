@@ -57,5 +57,6 @@ func TestConfig(t *testing.T) {
 	fmt.Println(err)
 }
 func HandlerFunc(ctx context.Context, req server.Request, rsp interface{}) error {
+	fmt.Println(ctx, req, rsp)
 	return nil
 }
