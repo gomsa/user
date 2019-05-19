@@ -22,15 +22,14 @@ func TestUserCreate(t *testing.T) {
 	repo := &service.UserRepository{db.DB}
 	h := hander.User{repo}
 	req := &userPB.User{
-		Username:     `bvbv0111`,
-		Password:     `123456`,
-		Mobile:       `13953186114`,
-		Email:        `bvbv0a1@qq.com`,
-		Name:         `bvbv0111`,
-		Introduction: `I am a super administrator`,
-		Avatar:       `https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif`,
-		Roles:        `admin,editor`,
-		Origin:       `user-srv`,
+		Username: `bvbv0111`,
+		Password: `123456`,
+		Mobile:   `13953186114`,
+		Email:    `bvbv0a1@qq.com`,
+		Name:     `bvbv0111`,
+		Avatar:   `https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif`,
+		Roles:    `admin,editor`,
+		Origin:   `user-srv`,
 	}
 	res := &userPB.Response{}
 	err := h.Create(context.TODO(), req, res)

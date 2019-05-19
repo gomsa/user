@@ -22,7 +22,6 @@ func user() {
 			password varchar(128) DEFAULT NULL,
 			name varchar(64) DEFAULT NULL,
 			avatar varchar(128) DEFAULT NULL,
-			introduction varchar(128) DEFAULT NULL,
 			roles varchar(128) DEFAULT NULL,
 			origin varchar(32) DEFAULT NULL,
 			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
