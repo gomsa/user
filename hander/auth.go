@@ -53,11 +53,11 @@ func (srv *Auth) Auth(ctx context.Context, req *pb.User, res *pb.Token) (err err
 		Mobile:   req.Mobile,
 	})
 	if err != nil {
-		return err
+		return errors.New("用户不存在")
 	}
 	// 进行密码验证
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password)); err != nil {
-		return err
+		return errors.New("密码错误")
 	}
 	err = uitl.Data2Data(user, req)
 	if err != nil {
