@@ -13,11 +13,6 @@ import (
 	"github.com/gomsa/user-srv/service"
 )
 
-func TestC(t *testing.T) {
-	// ctx := context.Background()
-	// ctx = context.WithValue(ctx, "key", "test")
-	// fmt.Println(ctx.Value("key"))
-}
 func TestUserCreate(t *testing.T) {
 	repo := &service.UserRepository{db.DB}
 	h := hander.User{repo}
@@ -46,7 +41,7 @@ func TestUserIsExist(t *testing.T) {
 		Email:    `bvbv0a1@qq.com`,
 	}
 	res := &userPB.Response{}
-	err := h.Create(context.TODO(), req, res)
+	err := h.Exist(context.TODO(), req, res)
 	// fmt.Println(req, res.Valid, err)
 	t.Log(req, res, err)
 }
@@ -58,28 +53,41 @@ func TestUserGet(t *testing.T) {
 	}
 	res := &userPB.Response{}
 	err := h.Get(context.TODO(), req, res)
-	// fmt.Println(res, err)
+	// fmt.Println("UserGet", res, err)
 	t.Log(req, res, err)
 }
 
-func TestUserInfo(t *testing.T) {
-	repo := &service.UserRepository{db.DB}
-	h := hander.User{repo}
-	req := &userPB.User{
-		Username: `bvbv011`,
-	}
-	res := &userPB.Response{}
-	err := h.Get(context.TODO(), req, res)
-	// fmt.Println(res, err)
-	t.Log(req, res, err)
-}
-func TestUserGetAll(t *testing.T) {
+func TestUserList(t *testing.T) {
 	repo := &service.UserRepository{db.DB}
 	h := hander.User{repo}
 	req := &userPB.Request{}
 	res := &userPB.Response{}
-	err := h.GetAll(context.TODO(), req, res)
-	// fmt.Println(req, res, err)
+	err := h.List(context.TODO(), req, res)
+	// fmt.Println("UserList", req, res, err)
+	t.Log(req, res, err)
+}
+func TestUserUpdate(t *testing.T) {
+	// repo := &service.UserRepository{db.DB}
+	// h := hander.User{repo}
+	// req := &userPB.User{
+	// 	Id:       `66527a06-5a16-4bab-8ed8-6cd66ff867b3`,
+	// 	Username: `bvbv0111`,
+	// 	Name:     `newbvbv`,
+	// }
+	// res := &userPB.Response{}
+	// err := h.Update(context.TODO(), req, res)
+	// fmt.Println("UserUpdate", req, res, err)
+	// t.Log(req, res, err)
+}
+func TestUserDelete(t *testing.T) {
+	repo := &service.UserRepository{db.DB}
+	h := hander.User{repo}
+	req := &userPB.User{
+		Id: `66527a06-5a16-4bab-8ed8-6cd66ff867b3`,
+	}
+	res := &userPB.Response{}
+	err := h.Delete(context.TODO(), req, res)
+	// fmt.Println("UserDelete", req, res, err)
 	t.Log(req, res, err)
 }
 

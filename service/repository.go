@@ -2,7 +2,7 @@ package service
 
 import (
 	"fmt"
-
+	// 公共引入
 	"github.com/micro/go-log"
 
 	pb "github.com/gomsa/user-srv/proto/user"
@@ -15,27 +15,14 @@ type Repository interface {
 	Create(user *pb.User) (*pb.User, error)
 	Exist(user *pb.User) bool
 	Get(user *pb.User) (*pb.User, error)
-	GetAll() ([]*pb.User, error)
+	List() ([]*pb.User, error)
+	Update(user *pb.User) (bool, error)
+	Delete(user *pb.User) (bool, error)
 }
 
 // UserRepository 用户仓库
 type UserRepository struct {
 	DB *gorm.DB
-}
-
-// Create 创建用户
-// bug 无用户名创建用户可能引起 bug
-func (repo *UserRepository) Create(user *pb.User) (*pb.User, error) {
-	if exist := repo.Exist(user); exist == true {
-		return user, fmt.Errorf("注册用户已存在")
-	}
-	err := repo.DB.Create(user).Error
-	if err != nil {
-		// 写入数据库未知失败记录
-		log.Log(err)
-		return user, fmt.Errorf("注册用户失败")
-	}
-	return user, nil
 }
 
 // Exist 检测用户是否已经存在
@@ -60,6 +47,15 @@ func (repo *UserRepository) Exist(user *pb.User) bool {
 		}
 	}
 	return false
+}
+
+// List 获取所有用户信息
+func (repo *UserRepository) List() (users []*pb.User, err error) {
+	if err := repo.DB.Find(&users).Error; err != nil {
+		log.Log(err)
+		return nil, err
+	}
+	return users, nil
 }
 
 // Get 获取用户信息
@@ -87,10 +83,40 @@ func (repo *UserRepository) Get(user *pb.User) (*pb.User, error) {
 	return user, nil
 }
 
-// GetAll 获取所有用户信息
-func (repo *UserRepository) GetAll() (users []*pb.User, err error) {
-	if err := repo.DB.Find(&users).Error; err != nil {
-		return nil, err
+// Create 创建用户
+// bug 无用户名创建用户可能引起 bug
+func (repo *UserRepository) Create(user *pb.User) (*pb.User, error) {
+	if exist := repo.Exist(user); exist == true {
+		return user, fmt.Errorf("注册用户已存在")
 	}
-	return users, nil
+	err := repo.DB.Create(user).Error
+	if err != nil {
+		// 写入数据库未知失败记录
+		log.Log(err)
+		return user, fmt.Errorf("注册用户失败")
+	}
+	return user, nil
+}
+
+// Update 更新用户
+func (repo *UserRepository) Update(user *pb.User) (bool, error) {
+	id := &pb.User{
+		Id: user.Id,
+	}
+	err := repo.DB.Model(id).Updates(user).Error
+	if err != nil {
+		log.Log(err)
+		return false, err
+	}
+	return true, nil
+}
+
+// Delete 删除用户
+func (repo *UserRepository) Delete(user *pb.User) (bool, error) {
+	err := repo.DB.Delete(user).Error
+	if err != nil {
+		log.Log(err)
+		return false, err
+	}
+	return true, nil
 }
