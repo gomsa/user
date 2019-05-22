@@ -274,7 +274,7 @@ var _ server.Option
 type UsersClient interface {
 	// 用过 用户名、邮箱、手机 查询用户是否存在
 	Exist(ctx context.Context, in *User, opts ...client.CallOption) (*Response, error)
-	// 获取全部用户
+	// 获取用户列表
 	List(ctx context.Context, in *Request, opts ...client.CallOption) (*Response, error)
 	// 根据 唯一 获取用户
 	Get(ctx context.Context, in *User, opts ...client.CallOption) (*Response, error)
@@ -369,7 +369,7 @@ func (c *usersClient) Delete(ctx context.Context, in *User, opts ...client.CallO
 type UsersHandler interface {
 	// 用过 用户名、邮箱、手机 查询用户是否存在
 	Exist(context.Context, *User, *Response) error
-	// 获取全部用户
+	// 获取用户列表
 	List(context.Context, *Request, *Response) error
 	// 根据 唯一 获取用户
 	Get(context.Context, *User, *Response) error
