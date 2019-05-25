@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	_ "github.com/gomsa/user-srv/database/migrations"
@@ -63,7 +64,7 @@ func TestUserList(t *testing.T) {
 	req := &userPB.Request{}
 	res := &userPB.Response{}
 	err := h.List(context.TODO(), req, res)
-	// fmt.Println("UserList", req, res, err)
+	fmt.Println("UserList", req, res, err)
 	t.Log(req, res, err)
 }
 func TestUserUpdate(t *testing.T) {
