@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"testing"
 
 	_ "github.com/gomsa/user-srv/database/migrations"
@@ -18,10 +17,10 @@ func TestUserCreate(t *testing.T) {
 	repo := &service.UserRepository{db.DB}
 	h := hander.User{repo}
 	req := &userPB.User{
-		Username: `bvbv0111`,
+		Username: `bvbv0115`,
 		Password: `123456`,
-		Mobile:   `13953186114`,
-		Email:    `bvbv0a1@qq.com`,
+		Mobile:   `13953186115`,
+		Email:    `bvbv0a115@qq.com`,
 		Name:     `bvbv0111`,
 		Avatar:   `https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif`,
 		Roles:    `admin,editor`,
@@ -38,7 +37,7 @@ func TestUserIsExist(t *testing.T) {
 	h := hander.User{repo}
 	req := &userPB.User{
 		Username: `bvbv0111`,
-		Mobile:   `13953186114`,
+		Mobile:   `13953186115`,
 		Email:    `bvbv0a1@qq.com`,
 	}
 	res := &userPB.Response{}
@@ -50,7 +49,7 @@ func TestUserGet(t *testing.T) {
 	repo := &service.UserRepository{db.DB}
 	h := hander.User{repo}
 	req := &userPB.User{
-		Username: `bvbv011`,
+		Username: `bvbv0111`,
 	}
 	res := &userPB.Response{}
 	err := h.Get(context.TODO(), req, res)
@@ -61,10 +60,15 @@ func TestUserGet(t *testing.T) {
 func TestUserList(t *testing.T) {
 	repo := &service.UserRepository{db.DB}
 	h := hander.User{repo}
-	req := &userPB.Request{}
+	req := &userPB.ListQuery{
+		Limit:  20,
+		Page:   1,
+		Order:  "mobile desc",
+		Mobile: "86113",
+	}
 	res := &userPB.Response{}
 	err := h.List(context.TODO(), req, res)
-	fmt.Println("UserList", req, res, err)
+	// fmt.Println("UserList", res, err)
 	t.Log(req, res, err)
 }
 func TestUserUpdate(t *testing.T) {

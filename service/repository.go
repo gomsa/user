@@ -15,7 +15,7 @@ type Repository interface {
 	Create(user *pb.User) (*pb.User, error)
 	Exist(user *pb.User) bool
 	Get(user *pb.User) (*pb.User, error)
-	List() ([]*pb.User, error)
+	List(req *pb.ListQuery) ([]*pb.User, error)
 	Update(user *pb.User) (bool, error)
 	Delete(user *pb.User) (bool, error)
 }
@@ -50,8 +50,39 @@ func (repo *UserRepository) Exist(user *pb.User) bool {
 }
 
 // List 获取所有用户信息
-func (repo *UserRepository) List() (users []*pb.User, err error) {
-	if err := repo.DB.Find(&users).Error; err != nil {
+func (repo *UserRepository) List(req *pb.ListQuery) (users []*pb.User, err error) {
+	db := repo.DB
+	// 分页
+	var limit, offset int64
+	if req.Limit > 0 {
+		limit = req.Limit
+	} else {
+		limit = 10
+	}
+	if req.Page > 1 {
+		offset = (req.Page - 1) * limit
+	} else {
+		offset = -1
+	}
+
+	// 排序
+	var order string
+	if req.Order != "" {
+		order = req.Order
+	} else {
+		order = "created_at desc"
+	}
+	// 查询条件
+	if req.Username != "" {
+		db = db.Where("username like ?", "%"+req.Username+"%")
+	}
+	if req.Mobile != "" {
+		db = db.Where("mobile like ?", "%"+req.Mobile+"%")
+	}
+	if req.Email != "" {
+		db = db.Where("email like ?", "%"+req.Email+"%")
+	}
+	if err := db.Order(order).Limit(limit).Offset(offset).Find(&users).Error; err != nil {
 		log.Log(err)
 		return nil, err
 	}

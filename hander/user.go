@@ -22,8 +22,8 @@ func (srv *User) Exist(ctx context.Context, req *pb.User, res *pb.Response) (err
 }
 
 // List 获取所有用户
-func (srv *User) List(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	users, err := srv.Repo.List()
+func (srv *User) List(ctx context.Context, req *pb.ListQuery, res *pb.Response) (err error) {
+	users, err := srv.Repo.List(req)
 	if err != nil {
 		return err
 	}
