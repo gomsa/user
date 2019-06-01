@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"testing"
 
 	_ "github.com/gomsa/user-srv/database/migrations"
