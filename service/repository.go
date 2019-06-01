@@ -131,6 +131,9 @@ func (repo *UserRepository) Create(user *pb.User) (*pb.User, error) {
 
 // Update 更新用户
 func (repo *UserRepository) Update(user *pb.User) (bool, error) {
+	if user.Id == "" {
+		return false, fmt.Errorf("请传入更新id")
+	}
 	id := &pb.User{
 		Id: user.Id,
 	}
