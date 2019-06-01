@@ -66,11 +66,11 @@ func (repo *UserRepository) List(req *pb.ListQuery) (users []*pb.User, err error
 	}
 
 	// 排序
-	var order string
-	if req.Order != "" {
-		order = req.Order
+	var sort string
+	if req.Sort != "" {
+		sort = req.Sort
 	} else {
-		order = "created_at desc"
+		sort = "created_at desc"
 	}
 	// 查询条件
 	if req.Username != "" {
@@ -82,7 +82,7 @@ func (repo *UserRepository) List(req *pb.ListQuery) (users []*pb.User, err error
 	if req.Email != "" {
 		db = db.Where("email like ?", "%"+req.Email+"%")
 	}
-	if err := db.Order(order).Limit(limit).Offset(offset).Find(&users).Error; err != nil {
+	if err := db.Order(sort).Limit(limit).Offset(offset).Find(&users).Error; err != nil {
 		log.Log(err)
 		return nil, err
 	}

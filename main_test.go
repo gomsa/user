@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	_ "github.com/gomsa/user-srv/database/migrations"
@@ -61,10 +62,9 @@ func TestUserList(t *testing.T) {
 	repo := &service.UserRepository{db.DB}
 	h := hander.User{repo}
 	req := &userPB.ListQuery{
-		Limit:  20,
-		Page:   1,
-		Order:  "mobile desc",
-		Mobile: "86113",
+		Limit: 20,
+		Page:  1,
+		Sort:  "created_at desc",
 	}
 	res := &userPB.Response{}
 	err := h.List(context.TODO(), req, res)
