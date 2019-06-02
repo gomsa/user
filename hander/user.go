@@ -61,6 +61,14 @@ func (srv *User) Create(ctx context.Context, req *pb.User, res *pb.Response) (er
 
 // Update 更新用户
 func (srv *User) Update(ctx context.Context, req *pb.User, res *pb.Response) (err error) {
+	// 密码不为空时才可以修改密码
+	if req.Password != "" {
+		hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+		if err != nil {
+			return err
+		}
+		req.Password = string(hashedPass)
+	}
 	valid, err := srv.Repo.Update(req)
 	if err != nil {
 		res.Valid = false
