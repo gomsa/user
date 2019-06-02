@@ -15,7 +15,7 @@ import (
 // Auth 授权服务处理
 type Auth struct {
 	TokenService service.Authable
-	Repo         service.Repository
+	Repo         service.URepository
 }
 
 // AuthById 只通过 id 获取 jwt token

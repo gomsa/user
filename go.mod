@@ -5,7 +5,10 @@ go 1.12
 require (
 	github.com/alexbrainman/odbc v0.0.0-20181122072825-9f8c46d67b52 // indirect
 	github.com/armon/circbuf v0.0.0-20190214190532-5111143e8da2 // indirect
+	github.com/casbin/casbin v1.8.2
+	github.com/casbin/gorm-adapter v0.0.0-20190318080705-e74a050c51a4
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/go-sql-driver/mysql v1.4.1
 	github.com/go-xorm/xorm v0.7.1 // indirect
 	github.com/golang/protobuf v1.3.1
 	github.com/gomsa/tools v0.0.0-20190517032518-6b8a14b58a04

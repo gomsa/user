@@ -10,8 +10,8 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-//Repository 仓库接口
-type Repository interface {
+//URepository 仓库接口
+type URepository interface {
 	Create(user *pb.User) (*pb.User, error)
 	Exist(user *pb.User) bool
 	Get(user *pb.User) (*pb.User, error)

@@ -1,0 +1,117 @@
+package service
+
+import (
+	"fmt"
+	// 公共引入
+	"github.com/micro/go-log"
+
+	pb "github.com/gomsa/user-srv/proto/permission"
+
+	"github.com/jinzhu/gorm"
+)
+
+//PRepository 仓库接口
+type PRepository interface {
+	Create(permission *pb.Permission) (*pb.Permission, error)
+	Delete(permission *pb.Permission) (bool, error)
+	Update(permission *pb.Permission) (bool, error)
+	Get(permission *pb.Permission) (*pb.Permission, error)
+	List(req *pb.ListQuery) ([]*pb.Permission, error)
+}
+
+// PermissionRepository 权限仓库
+type PermissionRepository struct {
+	DB *gorm.DB
+}
+
+// List 获取所有权限信息
+func (repo *PermissionRepository) List(req *pb.ListQuery) (permissions []*pb.Permission, err error) {
+	db := repo.DB
+	// 分页
+	var limit, offset int64
+	if req.Limit > 0 {
+		limit = req.Limit
+	} else {
+		limit = 10
+	}
+	if req.Page > 1 {
+		offset = (req.Page - 1) * limit
+	} else {
+		offset = -1
+	}
+
+	// 排序
+	var sort string
+	if req.Sort != "" {
+		sort = req.Sort
+	} else {
+		sort = "created_at desc"
+	}
+	// 查询条件
+	if req.Name != "" {
+		db = db.Where("permissionname like ?", "%"+req.Name+"%")
+	}
+	if err := db.Order(sort).Limit(limit).Offset(offset).Find(&permissions).Error; err != nil {
+		log.Log(err)
+		return nil, err
+	}
+	return permissions, nil
+}
+
+// Get 获取权限信息
+func (repo *PermissionRepository) Get(p *pb.Permission) (*pb.Permission, error) {
+	if p.Id > 0 {
+		if err := repo.DB.Model(&p).Where("id = ?", p.Id).Find(&p).Error; err != nil {
+			return nil, err
+		}
+	}
+	if p.Name != "" {
+		if err := repo.DB.Model(&p).Where("name = ?", p.Name).Find(&p).Error; err != nil {
+			return nil, err
+		}
+	}
+	if p.DisplayName != "" {
+		if err := repo.DB.Model(&p).Where("display_name = ?", p.DisplayName).Find(&p).Error; err != nil {
+			return nil, err
+		}
+	}
+	return p, nil
+}
+
+// Create 创建权限
+// bug 无权限名创建权限可能引起 bug
+func (repo *PermissionRepository) Create(p *pb.Permission) (*pb.Permission, error) {
+	err := repo.DB.Create(p).Error
+	if err != nil {
+		// 写入数据库未知失败记录
+		log.Log(err)
+		return p, fmt.Errorf("添加角色失败")
+	}
+	return p, nil
+}
+
+// Update 更新权限
+func (repo *PermissionRepository) Update(p *pb.Permission) (bool, error) {
+	if p.Id > 0 {
+		return false, fmt.Errorf("请传入更新id")
+	}
+	id := &pb.Permission{
+		Id: p.Id,
+	}
+	err := repo.DB.Model(id).Updates(p).Error
+	if err != nil {
+		log.Log(err)
+		return false, err
+	}
+	return true, nil
+}
+
+// Delete 删除权限
+func (repo *PermissionRepository) Delete(p *pb.Permission) (bool, error) {
+	err := repo.DB.Delete(p).Error
+	if err != nil {
+		log.Log(err)
+		return false, err
+	}
+	return true, nil
+}

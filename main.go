@@ -11,6 +11,8 @@ import (
 
 	"github.com/gomsa/user-srv/hander"
 	authPB "github.com/gomsa/user-srv/proto/auth"
+	permissionPB "github.com/gomsa/user-srv/proto/permission"
+	rolePB "github.com/gomsa/user-srv/proto/role"
 	userPB "github.com/gomsa/user-srv/proto/user"
 	db "github.com/gomsa/user-srv/providers/database"
 	"github.com/gomsa/user-srv/service"
@@ -30,6 +32,14 @@ func main() {
 	// token 服务实现
 	token := &service.TokenService{}
 	authPB.RegisterAuthHandler(srv.Server(), &hander.Auth{token, repo})
+
+	// 权限服务实现
+	prepo := &service.PermissionRepository{db.DB}
+	permissionPB.RegisterPermissionsHandler(srv.Server(), &hander.Permission{prepo})
+
+	// 角色服务实现
+	rrepo := &service.RoleRepository{db.DB}
+	rolePB.RegisterRolesHandler(srv.Server(), &hander.Role{rrepo})
 	// Run the server
 	if err := srv.Run(); err != nil {
 		log.Log(err)

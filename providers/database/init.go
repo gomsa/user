@@ -1,7 +1,7 @@
 package database
 
 import (
-	"log"
+	"github.com/micro/go-log"
 
 	"github.com/gomsa/tools/env"
 	tgorm "github.com/gomsa/tools/gorm"

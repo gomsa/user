@@ -12,7 +12,7 @@ import (
 
 // User 用户结构
 type User struct {
-	Repo service.Repository
+	Repo service.URepository
 }
 
 // Exist 用户是否存在
@@ -49,12 +49,11 @@ func (srv *User) Create(ctx context.Context, req *pb.User, res *pb.Response) (er
 		return err
 	}
 	req.Password = string(hashedPass)
-	user, err := srv.Repo.Create(req)
+	_, err = srv.Repo.Create(req)
 	if err != nil {
 		res.Valid = false
 		return fmt.Errorf("创建用户失败")
 	}
-	res.User = user
 	res.Valid = true
 	return err
 }

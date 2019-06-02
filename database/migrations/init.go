@@ -1,17 +1,21 @@
 package migrations
 
 import (
-	pb "github.com/gomsa/user-srv/proto/user"
+	permissionPB "github.com/gomsa/user-srv/proto/permission"
+	rolePB "github.com/gomsa/user-srv/proto/role"
+	userPD "github.com/gomsa/user-srv/proto/user"
 	db "github.com/gomsa/user-srv/providers/database"
 )
 
 func init() {
 	user()
+	permission()
+	role()
 }
 
 // user 用户数据迁移
 func user() {
-	user := &pb.User{}
+	user := &userPD.User{}
 	if !db.DB.HasTable(&user) {
 		db.DB.Exec(`
 			CREATE TABLE users (
@@ -32,6 +36,50 @@ func user() {
 			UNIQUE KEY username (username),
 			UNIQUE KEY mobile (mobile),
 			UNIQUE KEY email (email)
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+		`)
+	}
+}
+
+// permission 权限数据迁移
+func permission() {
+	permission := &permissionPB.Permission{}
+	if !db.DB.HasTable(&permission) {
+		db.DB.Exec(`
+			CREATE TABLE permissions (
+			id int(11) unsigned NOT NULL AUTO_INCREMENT,
+			name varchar(64) DEFAULT NULL,
+			display_name varchar(64) DEFAULT NULL,
+			description varchar(128) DEFAULT NULL,
+			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			xxx_unrecognized varbinary(255) DEFAULT NULL,
+			xxx_sizecache int(11) DEFAULT NULL,
+			PRIMARY KEY (id),
+			UNIQUE KEY name (name),
+			UNIQUE KEY display_name (display_name)
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+		`)
+	}
+}
+
+// role 角色数据迁移
+func role() {
+	role := &rolePB.Role{}
+	if !db.DB.HasTable(&role) {
+		db.DB.Exec(`
+			CREATE TABLE roles (
+			id int(11) unsigned NOT NULL AUTO_INCREMENT,
+			name varchar(64) DEFAULT NULL,
+			display_name varchar(64) DEFAULT NULL,
+			description varchar(128) DEFAULT NULL,
+			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			xxx_unrecognized varbinary(255) DEFAULT NULL,
+			xxx_sizecache int(11) DEFAULT NULL,
+			PRIMARY KEY (id),
+			UNIQUE KEY name (name),
+			UNIQUE KEY display_name (display_name)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 		`)
 	}
