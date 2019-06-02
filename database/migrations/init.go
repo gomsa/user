@@ -28,11 +28,10 @@ func user() {
 			updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 			xxx_unrecognized varbinary(255) DEFAULT NULL,
 			xxx_sizecache int(11) DEFAULT NULL,
-			PRIMARY KEY (id)
-			UNIQUE KEY username (username)
-			UNIQUE KEY mobile (mobile)
+			PRIMARY KEY (id),
+			UNIQUE KEY username (username),
+			UNIQUE KEY mobile (mobile),
 			UNIQUE KEY email (email)
-			UNIQUE KEY name (name)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 		`)
 	}
