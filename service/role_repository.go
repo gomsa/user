@@ -108,7 +108,7 @@ func (repo *RoleRepository) Create(r *pb.Role) (*pb.Role, error) {
 
 // Update 更新角色
 func (repo *RoleRepository) Update(r *pb.Role) (bool, error) {
-	if r.Id > 0 {
+	if r.Id == 0 {
 		return false, fmt.Errorf("请传入更新id")
 	}
 	id := &pb.Role{

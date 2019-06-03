@@ -108,7 +108,7 @@ func (repo *PermissionRepository) Create(p *pb.Permission) (*pb.Permission, erro
 
 // Update 更新权限
 func (repo *PermissionRepository) Update(p *pb.Permission) (bool, error) {
-	if p.Id > 0 {
+	if p.Id == 0 {
 		return false, fmt.Errorf("请传入更新id")
 	}
 	id := &pb.Permission{
