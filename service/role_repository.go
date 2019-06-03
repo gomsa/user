@@ -59,46 +59,46 @@ func (repo *RoleRepository) List(req *pb.ListQuery) (roles []*pb.Role, err error
 }
 
 // Get 获取角色信息
-func (repo *RoleRepository) Get(p *pb.Role) (*pb.Role, error) {
-	if p.Id > 0 {
-		if err := repo.DB.Model(&p).Where("id = ?", p.Id).Find(&p).Error; err != nil {
+func (repo *RoleRepository) Get(r *pb.Role) (*pb.Role, error) {
+	if r.Id > 0 {
+		if err := repo.DB.Model(&r).Where("id = ?", r.Id).Find(&r).Error; err != nil {
 			return nil, err
 		}
 	}
-	if p.Name != "" {
-		if err := repo.DB.Model(&p).Where("name = ?", p.Name).Find(&p).Error; err != nil {
+	if r.Name != "" {
+		if err := repo.DB.Model(&r).Where("name = ?", r.Name).Find(&r).Error; err != nil {
 			return nil, err
 		}
 	}
-	if p.DisplayName != "" {
-		if err := repo.DB.Model(&p).Where("display_name = ?", p.DisplayName).Find(&p).Error; err != nil {
+	if r.DisplayName != "" {
+		if err := repo.DB.Model(&r).Where("display_name = ?", r.DisplayName).Find(&r).Error; err != nil {
 			return nil, err
 		}
 	}
-	return p, nil
+	return r, nil
 }
 
 // Create 创建角色
 // bug 无角色名创建角色可能引起 bug
-func (repo *RoleRepository) Create(p *pb.Role) (*pb.Role, error) {
-	err := repo.DB.Create(p).Error
+func (repo *RoleRepository) Create(r *pb.Role) (*pb.Role, error) {
+	err := repo.DB.Create(r).Error
 	if err != nil {
 		// 写入数据库未知失败记录
 		log.Log(err)
-		return p, fmt.Errorf("添加角色失败")
+		return r, fmt.Errorf("添加角色失败")
 	}
-	return p, nil
+	return r, nil
 }
 
 // Update 更新角色
-func (repo *RoleRepository) Update(p *pb.Role) (bool, error) {
-	if p.Id > 0 {
+func (repo *RoleRepository) Update(r *pb.Role) (bool, error) {
+	if r.Id > 0 {
 		return false, fmt.Errorf("请传入更新id")
 	}
 	id := &pb.Role{
-		Id: p.Id,
+		Id: r.Id,
 	}
-	err := repo.DB.Model(id).Updates(p).Error
+	err := repo.DB.Model(id).Updates(r).Error
 	if err != nil {
 		log.Log(err)
 		return false, err
@@ -107,8 +107,8 @@ func (repo *RoleRepository) Update(p *pb.Role) (bool, error) {
 }
 
 // Delete 删除角色
-func (repo *RoleRepository) Delete(p *pb.Role) (bool, error) {
-	err := repo.DB.Delete(p).Error
+func (repo *RoleRepository) Delete(r *pb.Role) (bool, error) {
+	err := repo.DB.Delete(r).Error
 	if err != nil {
 		log.Log(err)
 		return false, err
