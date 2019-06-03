@@ -16,6 +16,7 @@ type URepository interface {
 	Exist(user *pb.User) bool
 	Get(user *pb.User) (*pb.User, error)
 	List(req *pb.ListQuery) ([]*pb.User, error)
+	Total(req *pb.ListQuery) (int64, error)
 	Update(user *pb.User) (bool, error)
 	Delete(user *pb.User) (bool, error)
 }
@@ -87,6 +88,27 @@ func (repo *UserRepository) List(req *pb.ListQuery) (users []*pb.User, err error
 		return nil, err
 	}
 	return users, nil
+}
+
+// Total 获取所有用户查询总量
+func (repo *UserRepository) Total(req *pb.ListQuery) (total int64, err error) {
+	users := []pb.User{}
+	db := repo.DB
+	// 查询条件
+	if req.Username != "" {
+		db = db.Where("username like ?", "%"+req.Username+"%")
+	}
+	if req.Mobile != "" {
+		db = db.Where("mobile like ?", "%"+req.Mobile+"%")
+	}
+	if req.Email != "" {
+		db = db.Where("email like ?", "%"+req.Email+"%")
+	}
+	if err := db.Find(&users).Count(&total).Error; err != nil {
+		log.Log(err)
+		return total, err
+	}
+	return total, nil
 }
 
 // Get 获取用户信息

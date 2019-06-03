@@ -16,10 +16,12 @@ type Permission struct {
 // List 获取所有权限
 func (srv *Permission) List(ctx context.Context, req *pb.ListQuery, res *pb.Response) (err error) {
 	permissions, err := srv.Repo.List(req)
+	total, err := srv.Repo.Total(req)
 	if err != nil {
 		return err
 	}
 	res.Permissions = permissions
+	res.Total = total
 	return err
 }
 

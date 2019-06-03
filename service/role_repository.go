@@ -17,6 +17,7 @@ type RRepository interface {
 	Update(role *pb.Role) (bool, error)
 	Get(role *pb.Role) (*pb.Role, error)
 	List(req *pb.ListQuery) ([]*pb.Role, error)
+	Total(req *pb.ListQuery) (int64, error)
 }
 
 // RoleRepository 角色仓库
@@ -49,13 +50,28 @@ func (repo *RoleRepository) List(req *pb.ListQuery) (roles []*pb.Role, err error
 	}
 	// 查询条件
 	if req.Name != "" {
-		db = db.Where("rolename like ?", "%"+req.Name+"%")
+		db = db.Where("name like ?", "%"+req.Name+"%")
 	}
 	if err := db.Order(sort).Limit(limit).Offset(offset).Find(&roles).Error; err != nil {
 		log.Log(err)
 		return nil, err
 	}
 	return roles, nil
+}
+
+// Total 获取所有角色查询总量
+func (repo *RoleRepository) Total(req *pb.ListQuery) (total int64, err error) {
+	roles := []pb.Role{}
+	db := repo.DB
+	// 查询条件
+	if req.Name != "" {
+		db = db.Where("name like ?", "%"+req.Name+"%")
+	}
+	if err := db.Find(&roles).Count(&total).Error; err != nil {
+		log.Log(err)
+		return total, err
+	}
+	return total, nil
 }
 
 // Get 获取角色信息

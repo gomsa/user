@@ -24,9 +24,11 @@ func (srv *User) Exist(ctx context.Context, req *pb.User, res *pb.Response) (err
 // List 获取所有用户
 func (srv *User) List(ctx context.Context, req *pb.ListQuery, res *pb.Response) (err error) {
 	users, err := srv.Repo.List(req)
+	total, err := srv.Repo.Total(req)
 	if err != nil {
 		return err
 	}
+	res.Total = total
 	res.Users = users
 	return err
 }

@@ -16,10 +16,12 @@ type Role struct {
 // List 获取所有角色
 func (srv *Role) List(ctx context.Context, req *pb.ListQuery, res *pb.Response) (err error) {
 	roles, err := srv.Repo.List(req)
+	total, err := srv.Repo.Total(req)
 	if err != nil {
 		return err
 	}
 	res.Roles = roles
+	res.Total = total
 	return err
 }
 

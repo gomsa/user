@@ -17,6 +17,7 @@ type PRepository interface {
 	Update(permission *pb.Permission) (bool, error)
 	Get(permission *pb.Permission) (*pb.Permission, error)
 	List(req *pb.ListQuery) ([]*pb.Permission, error)
+	Total(req *pb.ListQuery) (int64, error)
 }
 
 // PermissionRepository 权限仓库
@@ -49,13 +50,28 @@ func (repo *PermissionRepository) List(req *pb.ListQuery) (permissions []*pb.Per
 	}
 	// 查询条件
 	if req.Name != "" {
-		db = db.Where("permissionname like ?", "%"+req.Name+"%")
+		db = db.Where("name like ?", "%"+req.Name+"%")
 	}
 	if err := db.Order(sort).Limit(limit).Offset(offset).Find(&permissions).Error; err != nil {
 		log.Log(err)
 		return nil, err
 	}
 	return permissions, nil
+}
+
+// Total 获取所有权限查询总量
+func (repo *PermissionRepository) Total(req *pb.ListQuery) (total int64, err error) {
+	permissions := []pb.Permission{}
+	db := repo.DB
+	// 查询条件
+	if req.Name != "" {
+		db = db.Where("name like ?", "%"+req.Name+"%")
+	}
+	if err := db.Find(&permissions).Count(&total).Error; err != nil {
+		log.Log(err)
+		return total, err
+	}
+	return total, nil
 }
 
 // Get 获取权限信息
