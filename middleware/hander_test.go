@@ -16,9 +16,7 @@ func TestConfig(t *testing.T) {
 		{"service": "Auth", "method": "Auth", "auth": false, "policy": false, "display_name": "用户授权", "description": "用户登录授权返回 token 权限。"},
 		{"service": "Auth", "method": "ValidateToken", "auth": false, "policy": false, "display_name": "权限认证", "description": "权限相关认证权限。"},
 	}
-	h := Handler{Permission{
-		Data: Pata,
-	}}
+	h := Handler{Permissions: Pata}
 	hf := h.Wrapper(HandlerFunc)
 	err := hf(context.Background(), nil, nil)
 	fmt.Println(err)
