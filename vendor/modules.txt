@@ -36,10 +36,10 @@ github.com/golang/protobuf/ptypes
 github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
-# github.com/gomsa/tools v0.0.0-20190606021546-6df98f53add5
+# github.com/gomsa/tools v0.0.0-20190606070119-92dd46d93229
+github.com/gomsa/tools/config
 github.com/gomsa/tools/k8s/client
 github.com/gomsa/tools/uitl
-github.com/gomsa/tools/config
 github.com/gomsa/tools/env
 github.com/gomsa/tools/gorm
 # github.com/google/btree v1.0.0
@@ -108,12 +108,12 @@ github.com/micro/go-micro
 github.com/micro/go-micro/metadata
 github.com/micro/go-micro/server
 github.com/micro/go-micro/client
+github.com/micro/go-micro/config
 github.com/micro/go-micro/broker
 github.com/micro/go-micro/cmd
 github.com/micro/go-micro/registry
 github.com/micro/go-micro/selector
 github.com/micro/go-micro/transport
-github.com/micro/go-micro/config
 github.com/micro/go-micro/codec
 github.com/micro/go-micro/codec/bytes
 github.com/micro/go-micro/codec/grpc
@@ -125,6 +125,12 @@ github.com/micro/go-micro/server/debug
 github.com/micro/go-micro/util/addr
 github.com/micro/go-micro/util/log
 github.com/micro/go-micro/errors
+github.com/micro/go-micro/config/loader
+github.com/micro/go-micro/config/loader/memory
+github.com/micro/go-micro/config/reader
+github.com/micro/go-micro/config/reader/json
+github.com/micro/go-micro/config/source
+github.com/micro/go-micro/config/source/file
 github.com/micro/go-micro/registry/cache
 github.com/micro/go-micro/util/net
 github.com/micro/go-micro/util/tls
@@ -140,21 +146,15 @@ github.com/micro/go-micro/selector/static
 github.com/micro/go-micro/transport/grpc
 github.com/micro/go-micro/transport/http
 github.com/micro/go-micro/transport/memory
-github.com/micro/go-micro/config/loader
-github.com/micro/go-micro/config/loader/memory
-github.com/micro/go-micro/config/reader
-github.com/micro/go-micro/config/reader/json
-github.com/micro/go-micro/config/source
-github.com/micro/go-micro/config/source/file
 github.com/micro/go-micro/server/debug/proto
-github.com/micro/go-micro/registry/gossip/proto
-github.com/micro/go-micro/transport/grpc/proto
 github.com/micro/go-micro/config/encoder
 github.com/micro/go-micro/config/encoder/hcl
 github.com/micro/go-micro/config/encoder/json
 github.com/micro/go-micro/config/encoder/toml
 github.com/micro/go-micro/config/encoder/xml
 github.com/micro/go-micro/config/encoder/yaml
+github.com/micro/go-micro/registry/gossip/proto
+github.com/micro/go-micro/transport/grpc/proto
 # github.com/micro/go-plugins v0.24.1
 github.com/micro/go-plugins/registry/kubernetes
 github.com/micro/go-plugins/selector/static

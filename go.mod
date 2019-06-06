@@ -8,7 +8,7 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/golang/protobuf v1.3.1
-	github.com/gomsa/tools v0.0.0-20190606021546-6df98f53add5
+	github.com/gomsa/tools v0.0.0-20190606070119-92dd46d93229
 	github.com/jinzhu/gorm v1.9.8
 	github.com/micro/go-log v0.1.0
 	github.com/micro/go-micro v1.5.0
