@@ -6,7 +6,6 @@ import (
 	micro "github.com/micro/go-micro"
 	k8s "github.com/micro/kubernetes/go/micro"
 
-	"github.com/gomsa/tools/config"
 	// 执行数据迁移
 	_ "github.com/gomsa/user-srv/database/migrations"
 
@@ -20,10 +19,9 @@ import (
 )
 
 func main() {
-	// 加载配置
 	srv := k8s.NewService(
-		micro.Name(config.Conf.App),
-		micro.Version(config.Conf.Version),
+		micro.Name(Conf.App),
+		micro.Version(Conf.Version),
 	)
 	srv.Init()
 
