@@ -21,12 +21,9 @@ import (
 
 func main() {
 	// 加载配置
-	conf := &config.Config{}
-	conf.LoadFile("config.yaml")
-
 	srv := k8s.NewService(
-		micro.Name(conf.GetApp()),
-		micro.Version(conf.GetVersion()),
+		micro.Name(config.Conf.App),
+		micro.Version(config.Conf.Version),
 	)
 	srv.Init()
 
