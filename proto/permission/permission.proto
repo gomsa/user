@@ -20,7 +20,7 @@ service Permissions {
 message Permission {
     int64 id = 1;
     string service = 2;
-    string name = 3;
+    string method = 3;
     string display_name = 4;
     string description = 5;
     string created_at = 6;

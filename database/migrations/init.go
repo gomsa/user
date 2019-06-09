@@ -48,7 +48,8 @@ func permission() {
 		db.DB.Exec(`
 			CREATE TABLE permissions (
 			id int(11) unsigned NOT NULL AUTO_INCREMENT,
-			name varchar(64) DEFAULT NULL,
+			service varchar(64) DEFAULT NULL,
+			method varchar(64) DEFAULT NULL,
 			display_name varchar(64) DEFAULT NULL,
 			description varchar(128) DEFAULT NULL,
 			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
