@@ -34,7 +34,7 @@ func init() {
 }
 
 // SyncPermission 同步权限
-func SyncPermission(permission []*config.Permission) error {
+func SyncPermission(permission []config.Permission) error {
 	for _, p := range permission {
 		if p.Policy {
 			req := permissionPB.Permission{}
