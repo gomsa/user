@@ -81,8 +81,8 @@ func (repo *PermissionRepository) Get(p *pb.Permission) (*pb.Permission, error) 
 			return nil, err
 		}
 	}
-	if p.Name != "" {
-		if err := repo.DB.Model(&p).Where("name = ?", p.Name).Find(&p).Error; err != nil {
+	if p.Service != "" && p.Method != "" {
+		if err := repo.DB.Model(&p).Where("service = ?", p.Service).Where("method = ?", p.Method).Find(&p).Error; err != nil {
 			return nil, err
 		}
 	}
@@ -101,7 +101,7 @@ func (repo *PermissionRepository) Create(p *pb.Permission) (*pb.Permission, erro
 	if err != nil {
 		// 写入数据库未知失败记录
 		log.Log(err)
-		return p, fmt.Errorf("添加角色失败")
+		return p, fmt.Errorf("添加权限失败")
 	}
 	return p, nil
 }

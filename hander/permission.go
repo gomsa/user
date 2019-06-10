@@ -13,6 +13,21 @@ type Permission struct {
 	Repo service.PRepository
 }
 
+// UpdateOrCreate 创建或者更新
+func (srv *Permission) UpdateOrCreate(ctx context.Context, req *pb.Permission, res *pb.Response) (err error) {
+	p := pb.Permission{}
+	p.Service = req.Service
+	p.Method = req.Method
+	permission, err := srv.Repo.Get(&p)
+	if permission == nil {
+		_, err = srv.Repo.Create(req)
+	} else {
+		req.Id = permission.Id
+		_, err = srv.Repo.Update(req)
+	}
+	return err
+}
+
 // List 获取所有权限
 func (srv *Permission) List(ctx context.Context, req *pb.ListQuery, res *pb.Response) (err error) {
 	permissions, err := srv.Repo.List(req)

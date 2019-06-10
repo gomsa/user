@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	_ "github.com/gomsa/user-srv/database/migrations"
@@ -9,10 +10,21 @@ import (
 
 	"github.com/gomsa/user-srv/hander"
 	authPB "github.com/gomsa/user-srv/proto/auth"
+	permissionPB "github.com/gomsa/user-srv/proto/permission"
 	userPB "github.com/gomsa/user-srv/proto/user"
 	"github.com/gomsa/user-srv/service"
 )
 
+func TestPermissionsUpdateOrCreate(t *testing.T) {
+	req := &permissionPB.Permission{
+		Service: "user-api", Method: "Auth.Auth1", DisplayName: "用户授权3", Description: "用户登录授权返回 token 权限。",
+	}
+	repo := &service.PermissionRepository{db.DB}
+	h := hander.Permission{repo}
+	res := &permissionPB.Response{}
+	err := h.UpdateOrCreate(context.TODO(), req, res)
+	fmt.Println(req, res, err)
+}
 func TestUserCreate(t *testing.T) {
 	repo := &service.UserRepository{db.DB}
 	h := hander.User{repo}
