@@ -16,6 +16,7 @@ type RRepository interface {
 	Delete(role *pb.Role) (bool, error)
 	Update(role *pb.Role) (bool, error)
 	Get(role *pb.Role) (*pb.Role, error)
+	All(req *pb.Request) ([]*pb.Role, error)
 	List(req *pb.ListQuery) ([]*pb.Role, error)
 	Total(req *pb.ListQuery) (int64, error)
 }
@@ -23,6 +24,15 @@ type RRepository interface {
 // RoleRepository 角色仓库
 type RoleRepository struct {
 	DB *gorm.DB
+}
+
+// All 获取所有角色信息
+func (repo *RoleRepository) All(req *pb.Request) (roles []*pb.Role, err error) {
+	if err := repo.DB.Find(&roles).Error; err != nil {
+		log.Log(err)
+		return nil, err
+	}
+	return roles, nil
 }
 
 // List 获取所有角色信息

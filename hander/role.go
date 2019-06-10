@@ -13,6 +13,16 @@ type Role struct {
 	Repo service.RRepository
 }
 
+// All 获取所有权限
+func (srv *Role) All(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	roles, err := srv.Repo.All(req)
+	if err != nil {
+		return err
+	}
+	res.Roles = roles
+	return err
+}
+
 // List 获取所有角色
 func (srv *Role) List(ctx context.Context, req *pb.ListQuery, res *pb.Response) (err error) {
 	roles, err := srv.Repo.List(req)

@@ -16,6 +16,7 @@ type PRepository interface {
 	Delete(permission *pb.Permission) (bool, error)
 	Update(permission *pb.Permission) (bool, error)
 	Get(permission *pb.Permission) (*pb.Permission, error)
+	All(req *pb.Request) ([]*pb.Permission, error)
 	List(req *pb.ListQuery) ([]*pb.Permission, error)
 	Total(req *pb.ListQuery) (int64, error)
 }
@@ -23,6 +24,15 @@ type PRepository interface {
 // PermissionRepository 权限仓库
 type PermissionRepository struct {
 	DB *gorm.DB
+}
+
+// All 获取所有角色信息
+func (repo *PermissionRepository) All(req *pb.Request) (permissions []*pb.Permission, err error) {
+	if err := repo.DB.Find(&permissions).Error; err != nil {
+		log.Log(err)
+		return nil, err
+	}
+	return permissions, nil
 }
 
 // List 获取所有权限信息

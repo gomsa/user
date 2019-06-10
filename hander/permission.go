@@ -28,6 +28,16 @@ func (srv *Permission) UpdateOrCreate(ctx context.Context, req *pb.Permission, r
 	return err
 }
 
+// All 获取所有权限
+func (srv *Permission) All(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	permissions, err := srv.Repo.All(req)
+	if err != nil {
+		return err
+	}
+	res.Permissions = permissions
+	return err
+}
+
 // List 获取所有权限
 func (srv *Permission) List(ctx context.Context, req *pb.ListQuery, res *pb.Response) (err error) {
 	permissions, err := srv.Repo.List(req)
