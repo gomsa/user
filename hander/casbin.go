@@ -28,7 +28,7 @@ func (srv *Casbin) DeletePermissions(ctx context.Context, req *pb.Request, res *
 	return err
 }
 
-// UpdatePermissions 添加权限
+// UpdatePermissions 重新设置角色所有权限
 func (srv *Casbin) UpdatePermissions(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
 	srv.Enforcer.DeletePermissionsForUser(req.User)
 	for _, permission := range req.Permissions {
