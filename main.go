@@ -14,7 +14,9 @@ import (
 	permissionPB "github.com/gomsa/user-srv/proto/permission"
 	rolePB "github.com/gomsa/user-srv/proto/role"
 	userPB "github.com/gomsa/user-srv/proto/user"
+	casbinPB "github.com/gomsa/user-srv/proto/casbin"
 	db "github.com/gomsa/user-srv/providers/database"
+	"github.com/gomsa/user-srv/providers/casbin"
 	"github.com/gomsa/user-srv/service"
 )
 
@@ -40,6 +42,9 @@ func main() {
 	// 角色服务实现
 	rrepo := &service.RoleRepository{db.DB}
 	rolePB.RegisterRolesHandler(srv.Server(), &hander.Role{rrepo})
+
+	// 权限实现
+	casbinPB.RegisterCasbinHandler(srv.Server(),&hander.Casbin{casbin.Enforcer})
 	// Run the server
 	if err := srv.Run(); err != nil {
 		log.Log(err)
