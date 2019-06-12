@@ -10,19 +10,21 @@ service Casbin {
 }
 
 message Permission{
-    repeated string permission = 1;
+    string service = 1;
+    string method = 2;
 }
 
 message Request{
     string role = 1;
     string user = 2;
-    repeated string permission = 3;
+    Permission permission = 3;
     repeated Permission permissions = 4;
 }
+
 message Response{
     bool valid = 1;
     string role = 2;
     string user = 3;
-    repeated string permission = 4;
+    Permission permission = 4;
     repeated Permission permissions = 5;
 }

@@ -16,7 +16,7 @@ type Casbin struct {
 // AddPermissions 添加权限
 func (srv *Casbin) AddPermissions(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
 	for _, permission := range req.Permissions {
-		res.Valid = srv.Enforcer.AddPermissionForUser(req.User, permission)
+		res.Valid = srv.Enforcer.AddPermissionForUser(req.User, []string{permission.Service, permission.Method}...)
 		if !res.Valid {
 			return fmt.Errorf("添加权限失败")
 		}
@@ -32,6 +32,12 @@ func (srv *Casbin) DeletePermissions(ctx context.Context, req *pb.Request, res *
 
 // GetPermissions 获取权限
 func (srv *Casbin) GetPermissions(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	res.Permissions = srv.Enforcer.DeletePermissionsForUser(req.User)
+	permissions := srv.Enforcer.GetPermissionsForUser(req.User)
+	for _, permission := range permissions {
+		res.Permissions = append(res.Permissions, &pb.Permission{
+			Service: permission[0],
+			Method:  permission[1],
+		})
+	}
 	return err
 }
