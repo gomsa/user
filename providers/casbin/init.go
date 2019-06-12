@@ -29,10 +29,27 @@ func init() {
 	DbName := env.Getenv("DB_NAME", "srv_user")
 	// Charset 数据库编码
 	Charset := env.Getenv("DB_CHARSET", "utf8")
+	// Initialize the model from a string.
+	m := casbin.NewModel(`
+		[request_definition]
+		r = sub, obj, act
+
+		[policy_definition]
+		p = sub, obj, act
+
+		[role_definition]
+		g = _, _
+
+		[policy_effect]
+		e = some(where (p.eft == allow))
+
+		[matchers]
+		m = g(r.sub, p.sub) && r.obj == p.obj && r.act == p.act || g(r.sub,"root")
+	`)
 	a := gormadapter.NewAdapter(Driver, fmt.Sprintf(
 		"%s:%s@(%s:%s)/%s?charset=%s&parseTime=True&loc=Local",
 		User, Password, Host, Port, DbName, Charset,
 	), true) // Your driver and data source.
-	Enforcer = casbin.NewEnforcer("rbac_model.conf", a)
+	Enforcer = casbin.NewEnforcer(m, a)
 	Enforcer.LoadPolicy()
 }
