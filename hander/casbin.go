@@ -15,7 +15,7 @@ type Casbin struct {
 
 // AddPermission 添加权限
 func (srv *Casbin) AddPermission(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	res.Valid = srv.Enforcer.AddPermissionForUser(req.User, []string{req.Permission.Service, req.Permission.Method}...)
+	res.Valid = srv.Enforcer.AddPermissionForUser(req.Role, []string{req.Permission.Service, req.Permission.Method}...)
 	if !res.Valid {
 		return fmt.Errorf("添加权限失败")
 	}
@@ -24,15 +24,15 @@ func (srv *Casbin) AddPermission(ctx context.Context, req *pb.Request, res *pb.R
 
 // DeletePermissions 根据角色名删除权限
 func (srv *Casbin) DeletePermissions(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	res.Valid = srv.Enforcer.DeletePermissionsForUser(req.User)
+	res.Valid = srv.Enforcer.DeletePermissionsForUser(req.Role)
 	return err
 }
 
 // UpdatePermissions 重新设置角色所有权限
 func (srv *Casbin) UpdatePermissions(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	srv.Enforcer.DeletePermissionsForUser(req.User)
+	srv.Enforcer.DeletePermissionsForUser(req.Role)
 	for _, permission := range req.Permissions {
-		res.Valid = srv.Enforcer.AddPermissionForUser(req.User, []string{permission.Service, permission.Method}...)
+		res.Valid = srv.Enforcer.AddPermissionForUser(req.Role, []string{permission.Service, permission.Method}...)
 		if !res.Valid {
 			return fmt.Errorf("添加权限失败")
 		}
@@ -42,7 +42,7 @@ func (srv *Casbin) UpdatePermissions(ctx context.Context, req *pb.Request, res *
 
 // GetPermissions 获取权限
 func (srv *Casbin) GetPermissions(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	permissions := srv.Enforcer.GetPermissionsForUser(req.User)
+	permissions := srv.Enforcer.GetPermissionsForUser(req.Role)
 	for _, permission := range permissions {
 		res.Permissions = append(res.Permissions, &pb.Permission{
 			Service: permission[0],
