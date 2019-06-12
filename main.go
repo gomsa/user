@@ -43,7 +43,7 @@ func main() {
 	rrepo := &service.RoleRepository{db.DB}
 	rolePB.RegisterRolesHandler(srv.Server(), &hander.Role{rrepo})
 
-	// 权限实现
+	// 权限管理服务实现
 	casbinPB.RegisterCasbinHandler(srv.Server(),&hander.Casbin{casbin.Enforcer})
 	// Run the server
 	if err := srv.Run(); err != nil {
