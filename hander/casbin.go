@@ -45,8 +45,8 @@ func (srv *Casbin) GetPermissions(ctx context.Context, req *pb.Request, res *pb.
 	permissions := srv.Enforcer.GetPermissionsForUser(req.Role)
 	for _, permission := range permissions {
 		res.Permissions = append(res.Permissions, &pb.Permission{
-			Service: permission[0],
-			Method:  permission[1],
+			Service: permission[1],
+			Method:  permission[2],
 		})
 	}
 	return err
