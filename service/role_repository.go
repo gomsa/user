@@ -59,8 +59,8 @@ func (repo *RoleRepository) List(req *pb.ListQuery) (roles []*pb.Role, err error
 		sort = "created_at desc"
 	}
 	// 查询条件
-	if req.Name != "" {
-		db = db.Where("name like ?", "%"+req.Name+"%")
+	if req.Label != "" {
+		db = db.Where("label like ?", "%"+req.Label+"%")
 	}
 	if err := db.Order(sort).Limit(limit).Offset(offset).Find(&roles).Error; err != nil {
 		log.Log(err)
@@ -74,8 +74,8 @@ func (repo *RoleRepository) Total(req *pb.ListQuery) (total int64, err error) {
 	roles := []pb.Role{}
 	db := repo.DB
 	// 查询条件
-	if req.Name != "" {
-		db = db.Where("name like ?", "%"+req.Name+"%")
+	if req.Label != "" {
+		db = db.Where("label like ?", "%"+req.Label+"%")
 	}
 	if err := db.Find(&roles).Count(&total).Error; err != nil {
 		log.Log(err)
@@ -91,13 +91,13 @@ func (repo *RoleRepository) Get(r *pb.Role) (*pb.Role, error) {
 			return nil, err
 		}
 	}
-	if r.Name != "" {
-		if err := repo.DB.Model(&r).Where("name = ?", r.Name).Find(&r).Error; err != nil {
+	if r.Label != "" {
+		if err := repo.DB.Model(&r).Where("label = ?", r.Label).Find(&r).Error; err != nil {
 			return nil, err
 		}
 	}
-	if r.DisplayName != "" {
-		if err := repo.DB.Model(&r).Where("display_name = ?", r.DisplayName).Find(&r).Error; err != nil {
+	if r.Name != "" {
+		if err := repo.DB.Model(&r).Where("name = ?", r.Name).Find(&r).Error; err != nil {
 			return nil, err
 		}
 	}

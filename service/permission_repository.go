@@ -96,8 +96,8 @@ func (repo *PermissionRepository) Get(p *pb.Permission) (*pb.Permission, error) 
 			return nil, err
 		}
 	}
-	if p.DisplayName != "" {
-		if err := repo.DB.Model(&p).Where("display_name = ?", p.DisplayName).Find(&p).Error; err != nil {
+	if p.Name != "" {
+		if err := repo.DB.Model(&p).Where("name = ?", p.Name).Find(&p).Error; err != nil {
 			return nil, err
 		}
 	}

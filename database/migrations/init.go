@@ -50,7 +50,7 @@ func permission() {
 			id int(11) unsigned NOT NULL AUTO_INCREMENT,
 			service varchar(64) DEFAULT NULL,
 			method varchar(64) DEFAULT NULL,
-			display_name varchar(64) DEFAULT NULL,
+			name varchar(64) DEFAULT NULL,
 			description varchar(128) DEFAULT NULL,
 			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -70,15 +70,15 @@ func role() {
 		db.DB.Exec(`
 			CREATE TABLE roles (
 			id int(11) unsigned NOT NULL AUTO_INCREMENT,
+			label varchar(64) DEFAULT NULL,
 			name varchar(64) DEFAULT NULL,
-			display_name varchar(64) DEFAULT NULL,
 			description varchar(128) DEFAULT NULL,
 			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 			xxx_unrecognized varbinary(255) DEFAULT NULL,
 			xxx_sizecache int(11) DEFAULT NULL,
 			PRIMARY KEY (id),
-			UNIQUE KEY name (name)
+			UNIQUE KEY label (label)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 		`)
 	}
