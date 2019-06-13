@@ -56,7 +56,7 @@ func (repo *RoleRepository) List(req *pb.ListQuery) (roles []*pb.Role, err error
 	if req.Sort != "" {
 		sort = req.Sort
 	} else {
-		sort = "created_at desc"
+		sort = "id desc"
 	}
 	// 查询条件
 	if req.Label != "" {

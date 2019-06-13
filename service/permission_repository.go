@@ -56,7 +56,7 @@ func (repo *PermissionRepository) List(req *pb.ListQuery) (permissions []*pb.Per
 	if req.Sort != "" {
 		sort = req.Sort
 	} else {
-		sort = "created_at desc"
+		sort = "id desc"
 	}
 	// 查询条件
 	if req.Name != "" {
