@@ -17,7 +17,7 @@ import (
 
 func TestPermissionsUpdateOrCreate(t *testing.T) {
 	req := &permissionPB.Permission{
-		Service: "user-api", Method: "Auth.Auth1", DisplayName: "用户授权3", Description: "用户登录授权返回 token 权限。",
+		Service: "user-api", Method: "Auth.Auth1", Name: "用户授权3", Description: "用户登录授权返回 token 权限。",
 	}
 	repo := &service.PermissionRepository{db.DB}
 	h := hander.Permission{repo}
