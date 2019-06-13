@@ -57,8 +57,7 @@ func permission() {
 			xxx_unrecognized varbinary(255) DEFAULT NULL,
 			xxx_sizecache int(11) DEFAULT NULL,
 			PRIMARY KEY (id),
-			UNIQUE KEY service_OR_method (service,method),
-			UNIQUE KEY display_name (display_name)
+			UNIQUE KEY service_OR_method (service,method)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 		`)
 	}
@@ -79,8 +78,7 @@ func role() {
 			xxx_unrecognized varbinary(255) DEFAULT NULL,
 			xxx_sizecache int(11) DEFAULT NULL,
 			PRIMARY KEY (id),
-			UNIQUE KEY name (name),
-			UNIQUE KEY display_name (display_name)
+			UNIQUE KEY name (name)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 		`)
 	}
