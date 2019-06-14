@@ -133,6 +133,8 @@ func (repo *UserRepository) Get(user *pb.User) (*pb.User, error) {
 			return nil, err
 		}
 	}
+	// bug 临时设置角色 后期通过 casbin 返回
+	user.Roles = "admin,editor"
 	return user, nil
 }
 
