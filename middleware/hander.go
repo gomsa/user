@@ -3,12 +3,12 @@ package middleware
 import (
 	"context"
 	"errors"
-
+	"github.com/micro/go-log"
 	"github.com/micro/go-micro/metadata"
 	"github.com/micro/go-micro/server"
 
 	"github.com/gomsa/tools/config"
-	authClient "github.com/gomsa/user-srv/client"
+	 "github.com/gomsa/user-srv/client"
 	authPb "github.com/gomsa/user-srv/proto/auth"
 )
 
@@ -29,14 +29,13 @@ func (h *Handler) Wrapper(fn server.HandlerFunc) server.HandlerFunc {
 			if !ok {
 				return errors.New("no auth meta-data found in request")
 			}
+			log.Log(meta)
 			if token, ok := meta["x-token"]; ok {
 				// Note this is now uppercase (not entirely sure why this is...)
 				// token := strings.Split(meta["authorization"], "Bearer ")[1]
 				// Auth here
-				authResp, err := authClient.Auth.ValidateToken(context.Background(), &authPb.Request{
-					Token:   token,
-					Service: req.Service(),
-					Method:  req.Method(),
+				authResp, err := client.Auth.ValidateToken(ctx, &authPb.Request{
+					Token: token,
 				})
 				if err != nil || authResp.Valid == false {
 					return err

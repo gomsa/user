@@ -22,7 +22,7 @@ import (
 
 func main() {
 	srv := k8s.NewService(
-		micro.Name(Conf.App),
+		micro.Name(Conf.Service),
 		micro.Version(Conf.Version),
 	)
 	srv.Init()

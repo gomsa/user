@@ -9,7 +9,7 @@ var Conf config.Config
 
 func init() {
 	Conf = config.Config{
-		App:     "user-srv",
+		Service: "user-srv",
 		Version: "latest",
 	}
 }

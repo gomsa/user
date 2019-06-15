@@ -86,3 +86,12 @@ func (srv *Casbin) GetRoles(ctx context.Context, req *pb.Request, res *pb.Respon
 	res.Roles = srv.Enforcer.GetRolesForUser(req.UserID)
 	return err
 }
+
+// Validate 验证权限
+func (srv *Casbin) Validate(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	res.Valid = srv.Enforcer.Enforce(req.Role, req.Permission.Service, req.Permission.Method)
+	if !res.Valid {
+		return fmt.Errorf("添加权限失败")
+	}
+	return err
+}
