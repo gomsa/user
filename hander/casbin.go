@@ -2,9 +2,11 @@ package hander
 
 import (
 	"context"
-	"fmt"
+	"errors"
 
 	"github.com/casbin/casbin"
+	"github.com/micro/go-micro/metadata"
+
 	pb "github.com/gomsa/user-srv/proto/casbin"
 )
 
@@ -17,7 +19,7 @@ type Casbin struct {
 func (srv *Casbin) AddPermission(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
 	res.Valid = srv.Enforcer.AddPermissionForUser(req.Role, []string{req.Permission.Service, req.Permission.Method}...)
 	if !res.Valid {
-		return fmt.Errorf("添加权限失败")
+		return errors.New("添加权限失败")
 	}
 	return err
 }
@@ -34,7 +36,7 @@ func (srv *Casbin) UpdatePermissions(ctx context.Context, req *pb.Request, res *
 	for _, permission := range req.Permissions {
 		res.Valid = srv.Enforcer.AddPermissionForUser(req.Role, []string{permission.Service, permission.Method}...)
 		if !res.Valid {
-			return fmt.Errorf("添加权限失败")
+			return errors.New("添加权限失败")
 		}
 	}
 	return err
@@ -58,7 +60,7 @@ func (srv *Casbin) GetPermissions(ctx context.Context, req *pb.Request, res *pb.
 func (srv *Casbin) AddRole(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
 	res.Valid = srv.Enforcer.AddRoleForUser(req.UserID, req.Role)
 	if !res.Valid {
-		return fmt.Errorf("添加角色失败")
+		return errors.New("添加角色失败")
 	}
 	return err
 }
@@ -75,7 +77,7 @@ func (srv *Casbin) UpdateRoles(ctx context.Context, req *pb.Request, res *pb.Res
 	for _, role := range req.Roles {
 		res.Valid = srv.Enforcer.AddRoleForUser(req.UserID, role)
 		if !res.Valid {
-			return fmt.Errorf("添加角色失败")
+			return errors.New("添加角色失败")
 		}
 	}
 	return err
@@ -89,9 +91,17 @@ func (srv *Casbin) GetRoles(ctx context.Context, req *pb.Request, res *pb.Respon
 
 // Validate 验证权限
 func (srv *Casbin) Validate(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	res.Valid = srv.Enforcer.Enforce(req.Role, req.Permission.Service, req.Permission.Method)
-	if !res.Valid {
-		return fmt.Errorf("添加权限失败")
+	meta, ok := metadata.FromContext(ctx)
+	if !ok {
+		return errors.New("no auth meta-data found in request")
+	}
+	if userID, ok := meta["user_id"]; ok {
+		res.Valid = srv.Enforcer.Enforce(userID, meta["service"], meta["method"])
+		if !res.Valid {
+			return errors.New("您没有权限访问")
+		}
+	} else {
+		return errors.New("Empty userID")
 	}
 	return err
 }
