@@ -1,12 +1,13 @@
 package service
 
 import (
-	"os"
+	"strconv"
 	"time"
 
-	auth "github.com/gomsa/user-srv/proto/auth"
-
 	"github.com/dgrijalva/jwt-go"
+
+	"github.com/gomsa/tools/env"
+	auth "github.com/gomsa/user-srv/proto/auth"
 )
 
 // 定义加盐哈希密码时所用的盐
@@ -17,7 +18,7 @@ var (
 	// as a salt when hashing our tokens.
 	// Please make your own way more secure than this,
 	// use a randomly generated md5 hash or something
-	privateKey = []byte(os.Getenv("APP_KEY"))
+	privateKey = []byte(env.Getenv("APP_KEY", "8ca96774aadf77668e42931b9c0a14e5"))
 )
 
 // Authable 授权加密解密
@@ -52,8 +53,9 @@ func (srv *TokenService) Decode(tokenStr string) (*CustomClaims, error) {
 
 // Encode 将 User 用户信息加密为 JWT 字符串
 func (srv *TokenService) Encode(user *auth.User) (string, error) {
-	// 三天后过期
-	expireTime := time.Now().Add(time.Hour * 24 * 3).Unix()
+	// 默认三天后过期
+	validityPeriod, _ := strconv.ParseInt(env.Getenv("TOKEN_VALIDITY_PERIOD", "3"), 10, 64)
+	expireTime := time.Now().Add(time.Hour * 24 * time.Duration(validityPeriod)).Unix()
 	claims := CustomClaims{
 		user,
 		jwt.StandardClaims{

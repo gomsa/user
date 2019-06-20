@@ -44,6 +44,8 @@ spec:
           env:
             - name: APP_KEY
               value: "4RpKymtlXbizEQ8rOzHM3YybOrQuLya"
+            - name: TOKEN_VALIDITY_PERIOD
+              value: 15
             - name: DB_HOST
               value: "user-srv-mariadb-mariadb"
             - name: DB_USER
