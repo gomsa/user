@@ -22,7 +22,6 @@ stages:
       version: 5.0.9
       answers:
         db.name: user-srv
-        db.password: pG8_jE4)cE
         db.user: user-srv
         service.type: ClusterIP
         slave.replicas: "2"
