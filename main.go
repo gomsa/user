@@ -7,17 +7,17 @@ import (
 	k8s "github.com/micro/kubernetes/go/micro"
 
 	// 执行数据迁移
-	_ "github.com/gomsa/user-srv/database/migrations"
+	_ "github.com/gomsa/user/database/migrations"
 
-	"github.com/gomsa/user-srv/hander"
-	authPB "github.com/gomsa/user-srv/proto/auth"
-	permissionPB "github.com/gomsa/user-srv/proto/permission"
-	rolePB "github.com/gomsa/user-srv/proto/role"
-	userPB "github.com/gomsa/user-srv/proto/user"
-	casbinPB "github.com/gomsa/user-srv/proto/casbin"
-	db "github.com/gomsa/user-srv/providers/database"
-	"github.com/gomsa/user-srv/providers/casbin"
-	"github.com/gomsa/user-srv/service"
+	"github.com/gomsa/user/hander"
+	authPB "github.com/gomsa/user/proto/auth"
+	permissionPB "github.com/gomsa/user/proto/permission"
+	rolePB "github.com/gomsa/user/proto/role"
+	userPB "github.com/gomsa/user/proto/user"
+	casbinPB "github.com/gomsa/user/proto/casbin"
+	db "github.com/gomsa/user/providers/database"
+	"github.com/gomsa/user/providers/casbin"
+	"github.com/gomsa/user/service"
 )
 
 func main() {

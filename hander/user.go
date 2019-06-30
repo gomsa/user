@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	pb "github.com/gomsa/user-srv/proto/user"
-	"github.com/gomsa/user-srv/service"
+	pb "github.com/gomsa/user/proto/user"
+	"github.com/gomsa/user/service"
 
 	"golang.org/x/crypto/bcrypt"
 )

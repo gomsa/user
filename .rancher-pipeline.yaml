@@ -5,8 +5,8 @@ stages:
       image: bigrocs/golang-gcc:1.12
       shellScript: |-
         mkdir -p /go/src/github.com/gomsa
-        ln -s `pwd` /go/src/github.com/gomsa/user-srv
-        cd /go/src/github.com/gomsa/user-srv
+        ln -s `pwd` /go/src/github.com/gomsa/user
+        cd /go/src/github.com/gomsa/user
         GO111MODULE=off
         CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o bin/service
 - name: Publish
@@ -14,18 +14,18 @@ stages:
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
       buildContext: .
-      tag: user-srv:${CICD_EXECUTION_SEQUENCE}
+      tag: user:${CICD_EXECUTION_SEQUENCE}
 - name: Mariadb
   steps:
   - applyAppConfig:
       catalogTemplate: cattle-global-data:library-mariadb
       version: 5.0.9
       answers:
-        db.name: user-srv
-        db.user: user-srv
+        db.name: user
+        db.user: user
         service.type: ClusterIP
         slave.replicas: "2"
-      name: user-srv-mariadb
+      name: user-mariadb
       targetNamespace: srv
 - name: Deploy
   steps:

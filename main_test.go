@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"testing"
 
-	_ "github.com/gomsa/user-srv/database/migrations"
-	db "github.com/gomsa/user-srv/providers/database"
+	_ "github.com/gomsa/user/database/migrations"
+	db "github.com/gomsa/user/providers/database"
 
-	"github.com/gomsa/user-srv/hander"
-	authPB "github.com/gomsa/user-srv/proto/auth"
-	permissionPB "github.com/gomsa/user-srv/proto/permission"
-	userPB "github.com/gomsa/user-srv/proto/user"
-	"github.com/gomsa/user-srv/service"
+	"github.com/gomsa/user/hander"
+	authPB "github.com/gomsa/user/proto/auth"
+	permissionPB "github.com/gomsa/user/proto/permission"
+	userPB "github.com/gomsa/user/proto/user"
+	"github.com/gomsa/user/service"
 )
 
 func TestPermissionsUpdateOrCreate(t *testing.T) {
@@ -36,7 +36,7 @@ func TestUserCreate(t *testing.T) {
 		Name:     `bvbv0111`,
 		Avatar:   `https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif`,
 		Roles:    `admin,editor`,
-		Origin:   `user-srv`,
+		Origin:   `user`,
 	}
 	res := &userPB.Response{}
 	err := h.Create(context.TODO(), req, res)

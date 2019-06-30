@@ -7,7 +7,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 
 	"github.com/gomsa/tools/env"
-	auth "github.com/gomsa/user-srv/proto/auth"
+	auth "github.com/gomsa/user/proto/auth"
 )
 
 // 定义加盐哈希密码时所用的盐
@@ -59,7 +59,7 @@ func (srv *TokenService) Encode(user *auth.User) (string, error) {
 	claims := CustomClaims{
 		user,
 		jwt.StandardClaims{
-			Issuer:    `user-srv`, // 签发者
+			Issuer:    `user`, // 签发者
 			ExpiresAt: expireTime,
 		},
 	}

@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	pb "github.com/gomsa/user-srv/proto/permission"
-	"github.com/gomsa/user-srv/service"
+	pb "github.com/gomsa/user/proto/permission"
+	"github.com/gomsa/user/service"
 )
 
 // Permission 权限结构

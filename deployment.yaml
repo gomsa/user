@@ -1,11 +1,11 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: user-srv
+  name: user
   namespace: srv
 spec:
   selector:
-    app: user-srv
+    app: user
   type: ClusterIP
   ports:
     - protocol: TCP
@@ -16,24 +16,24 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-srv
+  name: user
   namespace: srv
   labels:
-    app: user-srv
+    app: user
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: user-srv
+      app: user
   template:
     metadata:
       labels:
-        app: user-srv
+        app: user
     spec:
       imagePullSecrets:
       - name: pipeline-docker-registry
       containers:
-        - name: user-srv
+        - name: user
           image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
           imagePullPolicy: Always
           command: [
@@ -47,16 +47,16 @@ spec:
             - name: TOKEN_VALIDITY_PERIOD
               value: "15"
             - name: DB_HOST
-              value: "user-srv-mariadb-mariadb"
+              value: "user-mariadb"
             - name: DB_USER
-              value: "user-srv"
+              value: "user"
             - name: DB_NAME
-              value: "user-srv"
+              value: "user"
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: mariadb-password
-                  name: user-srv-mariadb-mariadb
+                  name: user-mariadb
           ports:
           - containerPort: 8080
             name: micro
@@ -66,7 +66,7 @@ spec:
           command: [
             "/health",
             "--health_address=0.0.0.0:8081",
-            "--server_name=user-srv",
+            "--server_name=user",
             "--server_address=0.0.0.0:8080"
           ]
           livenessProbe:

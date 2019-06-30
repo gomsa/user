@@ -7,7 +7,7 @@ import (
 	"github.com/casbin/casbin"
 	"github.com/micro/go-micro/metadata"
 
-	pb "github.com/gomsa/user-srv/proto/casbin"
+	pb "github.com/gomsa/user/proto/casbin"
 )
 
 // Casbin 权限管理

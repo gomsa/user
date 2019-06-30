@@ -1,10 +1,10 @@
 package migrations
 
 import (
-	permissionPB "github.com/gomsa/user-srv/proto/permission"
-	rolePB "github.com/gomsa/user-srv/proto/role"
-	userPD "github.com/gomsa/user-srv/proto/user"
-	db "github.com/gomsa/user-srv/providers/database"
+	permissionPB "github.com/gomsa/user/proto/permission"
+	rolePB "github.com/gomsa/user/proto/role"
+	userPD "github.com/gomsa/user/proto/user"
+	db "github.com/gomsa/user/providers/database"
 )
 
 func init() {

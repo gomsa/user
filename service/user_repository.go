@@ -5,7 +5,7 @@ import (
 	// 公共引入
 	"github.com/micro/go-log"
 
-	pb "github.com/gomsa/user-srv/proto/user"
+	pb "github.com/gomsa/user/proto/user"
 
 	"github.com/jinzhu/gorm"
 )

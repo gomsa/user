@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	pb "github.com/gomsa/user-srv/proto/role"
-	"github.com/gomsa/user-srv/service"
+	pb "github.com/gomsa/user/proto/role"
+	"github.com/gomsa/user/service"
 )
 
 // Role 角色结构
