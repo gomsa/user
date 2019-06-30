@@ -51,11 +51,12 @@ func (srv *User) Create(ctx context.Context, req *pb.User, res *pb.Response) (er
 		return err
 	}
 	req.Password = string(hashedPass)
-	_, err = srv.Repo.Create(req)
+	user, err := srv.Repo.Create(req)
 	if err != nil {
 		res.Valid = false
 		return fmt.Errorf("创建用户失败")
 	}
+	res.User = user
 	res.Valid = true
 	return err
 }

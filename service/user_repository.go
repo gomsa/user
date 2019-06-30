@@ -169,7 +169,10 @@ func (repo *UserRepository) Update(user *pb.User) (bool, error) {
 
 // Delete 删除用户
 func (repo *UserRepository) Delete(user *pb.User) (bool, error) {
-	err := repo.DB.Delete(user).Error
+	id := &pb.User{
+		Id: user.Id,
+	}
+	err := repo.DB.Delete(id).Error
 	if err != nil {
 		log.Log(err)
 		return false, err
