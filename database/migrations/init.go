@@ -21,7 +21,7 @@ func init() {
 	permission()
 	role()
 
-	seedsCreateUser()
+	seeds()
 }
 
 // user 用户数据迁移
@@ -50,7 +50,6 @@ func user() {
 		`)
 	}
 }
-
 // permission 权限数据迁移
 func permission() {
 	permission := &permissionPB.Permission{}
@@ -94,8 +93,28 @@ func role() {
 	}
 }
 
-// seedsCreateUser 填充文件
-func seedsCreateUser() {
+func seeds() {
+	CreateRole()
+	CreateUser()
+}
+
+func CreateRole() {
+	// 角色服务实现
+	repo := &service.RoleRepository{db.DB}
+	h := hander.Role{repo}
+	req := &rolePB.Role{
+		Label: `root`,
+		Name: `超级管理员`,
+		Description: `超级管理员拥有全部权限`,
+	}
+	res := &rolePB.Response{}
+	err := h.Create(context.TODO(), req, res)
+	// AddRole
+	log.Log(err)
+}
+
+// CreateUser 填充文件
+func CreateUser() {
 	password := env.Getenv("ADMIN_PASSWORD", "123456")
 	repo := &service.UserRepository{db.DB}
 	h := hander.User{repo}
