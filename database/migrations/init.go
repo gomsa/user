@@ -125,8 +125,10 @@ func CreateUser() {
 	}
 	res := &userPB.Response{}
 	err := h.Create(context.TODO(), req, res)
-	// 增加用户 root 权限
-	addRole(res.User.Id,`root`)
+	if err == nil {
+		// 增加用户 root 权限
+		addRole(res.User.Id,`root`)
+	}
 	// AddRole
 	log.Log(err)
 }
