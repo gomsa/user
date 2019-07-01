@@ -42,8 +42,16 @@ spec:
             "--server_address=:8080",
           ]
           env:
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: admin-password
+                  name: user
             - name: APP_KEY
-              value: "4RpKymtlXbizEQ8rOzHM3YybOrQuLya"
+              valueFrom:
+                secretKeyRef:
+                  key: app-key
+                  name: user
             - name: TOKEN_VALIDITY_PERIOD
               value: "15"
             - name: DB_HOST
