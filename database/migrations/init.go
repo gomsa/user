@@ -8,9 +8,12 @@ import (
 	permissionPB "github.com/gomsa/user/proto/permission"
 	rolePB "github.com/gomsa/user/proto/role"
 	userPB "github.com/gomsa/user/proto/user"
+	casbinPB "github.com/gomsa/user/proto/casbin"
 	db "github.com/gomsa/user/providers/database"
 	"github.com/gomsa/user/service"
 	"github.com/micro/go-micro/util/log"
+
+	"github.com/gomsa/user/providers/casbin"
 )
 
 func init() {
@@ -103,5 +106,19 @@ func seedsCreateUser() {
 	}
 	res := &userPB.Response{}
 	err := h.Create(context.TODO(), req, res)
+	// 增加用户 root 权限
+	addRole(res.User.Id,`root`)
+	// AddRole
+	log.Log(err)
+}
+// AddRole 增加用户角色
+func addRole(userID string, role string) {
+	h := hander.Casbin{casbin.Enforcer}
+	req := &casbinPB.Request{
+		UserID: userID,
+		Role: role,
+	}
+	res := &casbinPB.Response{}
+	err := h.AddRole(context.TODO(), req, res)
 	log.Log(err)
 }
