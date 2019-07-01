@@ -1,21 +1,29 @@
 package migrations
 
 import (
+	"context"
+
+	"github.com/gomsa/tools/env"
+	"github.com/gomsa/user/hander"
 	permissionPB "github.com/gomsa/user/proto/permission"
 	rolePB "github.com/gomsa/user/proto/role"
-	userPD "github.com/gomsa/user/proto/user"
+	userPB "github.com/gomsa/user/proto/user"
 	db "github.com/gomsa/user/providers/database"
+	"github.com/gomsa/user/service"
+	"github.com/micro/go-micro/util/log"
 )
 
 func init() {
 	user()
 	permission()
 	role()
+
+	seedsCreateUser()
 }
 
 // user 用户数据迁移
 func user() {
-	user := &userPD.User{}
+	user := &userPB.User{}
 	if !db.DB.HasTable(&user) {
 		db.DB.Exec(`
 			CREATE TABLE users (
@@ -81,4 +89,19 @@ func role() {
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 		`)
 	}
+}
+
+// seedsCreateUser 填充文件
+func seedsCreateUser() {
+	password := env.Getenv("ADMIN_PASSWORD", "123456")
+	repo := &service.UserRepository{db.DB}
+	h := hander.User{repo}
+	req := &userPB.User{
+		Username: `admin`,
+		Password: password,
+		Origin:   `user`,
+	}
+	res := &userPB.Response{}
+	err := h.Create(context.TODO(), req, res)
+	log.Log(err)
 }
