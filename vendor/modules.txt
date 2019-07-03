@@ -33,8 +33,8 @@ github.com/golang/protobuf/ptypes/timestamp
 # github.com/gomsa/tools v0.0.0-20190615000832-56bbd6704f6b
 github.com/gomsa/tools/config
 github.com/gomsa/tools/k8s/client
-github.com/gomsa/tools/uitl
 github.com/gomsa/tools/env
+github.com/gomsa/tools/uitl
 github.com/gomsa/tools/gorm
 # github.com/google/btree v1.0.0
 github.com/google/btree
@@ -63,7 +63,7 @@ github.com/hashicorp/golang-lru/simplelru
 github.com/hashicorp/memberlist
 # github.com/hashicorp/serf v0.8.3
 github.com/hashicorp/serf/coordinate
-# github.com/jinzhu/gorm v1.9.9
+# github.com/jinzhu/gorm v1.9.10
 github.com/jinzhu/gorm
 github.com/jinzhu/gorm/dialects/mysql
 github.com/jinzhu/gorm/dialects/postgres
@@ -87,6 +87,7 @@ github.com/micro/go-grpc/server
 github.com/micro/go-log
 # github.com/micro/go-micro v1.7.0
 github.com/micro/go-micro
+github.com/micro/go-micro/util/log
 github.com/micro/go-micro/metadata
 github.com/micro/go-micro/server
 github.com/micro/go-micro/client
@@ -104,7 +105,6 @@ github.com/micro/go-micro/codec/proto
 github.com/micro/go-micro/codec/protorpc
 github.com/micro/go-micro/server/debug
 github.com/micro/go-micro/util/addr
-github.com/micro/go-micro/util/log
 github.com/micro/go-micro/errors
 github.com/micro/go-micro/registry/cache
 github.com/micro/go-micro/util/net
@@ -176,7 +176,7 @@ github.com/pkg/errors
 github.com/satori/go.uuid
 # github.com/sean-/seed v0.0.0-20170313163322-e2103e2c3529
 github.com/sean-/seed
-# golang.org/x/crypto v0.0.0-20190621222207-cc06ce4a13d4
+# golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4
 golang.org/x/crypto/bcrypt
 golang.org/x/crypto/blowfish
 golang.org/x/crypto/ed25519
