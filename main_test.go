@@ -35,7 +35,6 @@ func TestUserCreate(t *testing.T) {
 		Email:    `bvbv0a115@qq.com`,
 		Name:     `bvbv0111`,
 		Avatar:   `https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif`,
-		Roles:    `admin,editor`,
 		Origin:   `user`,
 	}
 	res := &userPB.Response{}

@@ -3,7 +3,7 @@ package migrations
 import (
 	"context"
 
-	// "github.com/gomsa/tools/env"
+	"github.com/gomsa/tools/env"
 	"github.com/gomsa/user/hander"
 	permissionPB "github.com/gomsa/user/proto/permission"
 	rolePB "github.com/gomsa/user/proto/role"
@@ -112,12 +112,12 @@ func CreateRole() {
 
 // CreateUser 填充文件
 func CreateUser() {
-	// password := env.Getenv("ADMIN_PASSWORD", "123456")
+	password := env.Getenv("ADMIN_PASSWORD", "123456")
 	repo := &service.UserRepository{db.DB}
 	h := hander.User{repo}
 	req := &userPB.User{
 		Username: `admin`,
-		Password: `123456`,
+		Password: string(password),
 		Origin:   `user`,
 	}
 	res := &userPB.Response{}
