@@ -79,12 +79,15 @@ func (srv *Auth) Auth(ctx context.Context, req *pb.User, res *pb.Token) (err err
 // 并且验证 token 所属用户相关权限
 func (srv *Auth) ValidateToken(ctx context.Context, req *pb.Request, res *pb.Token) (err error) {
 	// Decode token
+	if req.Token == "" {
+		return errors.New("请输传入 Token")
+	}
 	claims, err := srv.TokenService.Decode(req.Token)
 	if err != nil {
 		return err
 	}
 	if claims.User.Id == "" {
-		return errors.New("invalid user")
+		return errors.New("无效用户")
 	}
 	res.User = claims.User
 	res.Valid = true

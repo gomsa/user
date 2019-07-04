@@ -112,12 +112,12 @@ func CreateRole() {
 
 // CreateUser 填充文件
 func CreateUser() {
-	password := env.Getenv("ADMIN_PASSWORD", "123456")
+	password := env.Getenv("ADMIN_PASSWORD", "admin123")
 	repo := &service.UserRepository{db.DB}
 	h := hander.User{repo}
 	req := &userPB.User{
 		Username: `admin`,
-		Password: string(password),
+		Password: password,
 		Origin:   `user`,
 	}
 	res := &userPB.Response{}
