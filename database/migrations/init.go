@@ -5,10 +5,11 @@ import (
 
 	"github.com/gomsa/tools/env"
 	"github.com/gomsa/user/hander"
+	casbinPB "github.com/gomsa/user/proto/casbin"
+	FPPB "github.com/gomsa/user/proto/frontPermit"
 	permissionPB "github.com/gomsa/user/proto/permission"
 	rolePB "github.com/gomsa/user/proto/role"
 	userPB "github.com/gomsa/user/proto/user"
-	casbinPB "github.com/gomsa/user/proto/casbin"
 	db "github.com/gomsa/user/providers/database"
 	"github.com/gomsa/user/service"
 	"github.com/micro/go-micro/util/log"
@@ -18,6 +19,7 @@ import (
 
 func init() {
 	user()
+	frontPermit()
 	permission()
 	role()
 
@@ -47,6 +49,30 @@ func user() {
 		`)
 	}
 }
+
+// frontPermit 前端权限数据迁移
+func frontPermit() {
+	frontPermit := &FPPB.FrontPermit{}
+	if !db.DB.HasTable(&frontPermit) {
+		db.DB.Exec(`
+			CREATE TABLE front_permits (
+			id int(11) unsigned NOT NULL AUTO_INCREMENT,
+			app varchar(64) DEFAULT NULL,
+			service varchar(64) DEFAULT NULL,
+			method varchar(64) DEFAULT NULL,
+			name varchar(64) DEFAULT NULL,
+			description varchar(128) DEFAULT NULL,
+			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			xxx_unrecognized varbinary(255) DEFAULT NULL,
+			xxx_sizecache int(11) DEFAULT NULL,
+			PRIMARY KEY (id),
+			UNIQUE KEY service_OR_method (service,method)
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+		`)
+	}
+}
+
 // permission 权限数据迁移
 func permission() {
 	permission := &permissionPB.Permission{}
@@ -100,8 +126,8 @@ func CreateRole() {
 	repo := &service.RoleRepository{db.DB}
 	h := hander.Role{repo}
 	req := &rolePB.Role{
-		Label: `root`,
-		Name: `超级管理员`,
+		Label:       `root`,
+		Name:        `超级管理员`,
 		Description: `超级管理员拥有全部权限`,
 	}
 	res := &rolePB.Response{}
@@ -124,17 +150,18 @@ func CreateUser() {
 	err := h.Create(context.TODO(), req, res)
 	if err == nil {
 		// 增加用户 root 权限
-		addRole(res.User.Id,`root`)
+		addRole(res.User.Id, `root`)
 	}
 	// AddRole
 	log.Log(err)
 }
+
 // AddRole 增加用户角色
 func addRole(userID string, role string) {
 	h := hander.Casbin{casbin.Enforcer}
 	req := &casbinPB.Request{
 		UserID: userID,
-		Role: role,
+		Role:   role,
 	}
 	res := &casbinPB.Response{}
 	err := h.AddRole(context.TODO(), req, res)
