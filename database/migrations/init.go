@@ -6,7 +6,7 @@ import (
 	"github.com/gomsa/tools/env"
 	"github.com/gomsa/user/hander"
 	casbinPB "github.com/gomsa/user/proto/casbin"
-	FPPB "github.com/gomsa/user/proto/frontPermit"
+	frontPermitPB "github.com/gomsa/user/proto/frontPermit"
 	permissionPB "github.com/gomsa/user/proto/permission"
 	rolePB "github.com/gomsa/user/proto/role"
 	userPB "github.com/gomsa/user/proto/user"
@@ -52,7 +52,7 @@ func user() {
 
 // frontPermit 前端权限数据迁移
 func frontPermit() {
-	frontPermit := &FPPB.FrontPermit{}
+	frontPermit := &frontPermitPB.FrontPermit{}
 	if !db.DB.HasTable(&frontPermit) {
 		db.DB.Exec(`
 			CREATE TABLE front_permits (

@@ -10,19 +10,19 @@ import (
 
 	"github.com/gomsa/user/hander"
 	authPB "github.com/gomsa/user/proto/auth"
-	fpPB "github.com/gomsa/user/proto/frontPermit"
+	frontPermitPB "github.com/gomsa/user/proto/frontPermit"
 	permissionPB "github.com/gomsa/user/proto/permission"
 	userPB "github.com/gomsa/user/proto/user"
 	"github.com/gomsa/user/service"
 )
 
 func TestFrontPermitUpdateOrCreate(t *testing.T) {
-	req := &fpPB.FrontPermit{
+	req := &frontPermitPB.FrontPermit{
 		App: "ui", Service: "role", Method: "permission", Name: "角色权限", Description: "管理角色权限。",
 	}
 	repo := &service.FrontPermitRepository{db.DB}
 	h := hander.FrontPermit{repo}
-	res := &fpPB.Response{}
+	res := &frontPermitPB.Response{}
 	err := h.UpdateOrCreate(context.TODO(), req, res)
 	fmt.Println(req, res, err)
 }

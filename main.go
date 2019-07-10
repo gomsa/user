@@ -2,8 +2,8 @@ package main
 
 import (
 	// 公共引入
-	"github.com/micro/go-micro/util/log"
 	micro "github.com/micro/go-micro"
+	"github.com/micro/go-micro/util/log"
 	k8s "github.com/micro/kubernetes/go/micro"
 
 	// 执行数据迁移
@@ -11,12 +11,13 @@ import (
 
 	"github.com/gomsa/user/hander"
 	authPB "github.com/gomsa/user/proto/auth"
+	casbinPB "github.com/gomsa/user/proto/casbin"
+	frontPermitPB "github.com/gomsa/user/proto/frontPermit"
 	permissionPB "github.com/gomsa/user/proto/permission"
 	rolePB "github.com/gomsa/user/proto/role"
 	userPB "github.com/gomsa/user/proto/user"
-	casbinPB "github.com/gomsa/user/proto/casbin"
-	db "github.com/gomsa/user/providers/database"
 	"github.com/gomsa/user/providers/casbin"
+	db "github.com/gomsa/user/providers/database"
 	"github.com/gomsa/user/service"
 )
 
@@ -35,6 +36,10 @@ func main() {
 	token := &service.TokenService{}
 	authPB.RegisterAuthHandler(srv.Server(), &hander.Auth{token, repo})
 
+	// 前端权限服务实现
+	fprepo := &service.FrontPermitRepository{db.DB}
+	frontPermitPB.RegisterFrontPermitsHandler(srv.Server(), &hander.FrontPermit{fprepo})
+
 	// 权限服务实现
 	prepo := &service.PermissionRepository{db.DB}
 	permissionPB.RegisterPermissionsHandler(srv.Server(), &hander.Permission{prepo})
@@ -44,7 +49,7 @@ func main() {
 	rolePB.RegisterRolesHandler(srv.Server(), &hander.Role{rrepo})
 
 	// 权限管理服务实现
-	casbinPB.RegisterCasbinHandler(srv.Server(),&hander.Casbin{casbin.Enforcer})
+	casbinPB.RegisterCasbinHandler(srv.Server(), &hander.Casbin{casbin.Enforcer})
 	// Run the server
 	if err := srv.Run(); err != nil {
 		log.Log(err)
