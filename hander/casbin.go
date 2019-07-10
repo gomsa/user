@@ -85,7 +85,7 @@ func (srv *Casbin) UpdateRoles(ctx context.Context, req *pb.Request, res *pb.Res
 
 // GetRoles 获取权限
 func (srv *Casbin) GetRoles(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	res.Roles = srv.Enforcer.GetRolesForUser(req.UserID)
+	res.Roles, err = srv.Enforcer.GetRolesForUser(req.UserID)
 	return err
 }
 
