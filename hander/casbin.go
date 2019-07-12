@@ -93,7 +93,7 @@ func (srv *Casbin) Validate(ctx context.Context, req *pb.Request, res *pb.Respon
 		return errors.New("no auth meta-data found in request")
 	}
 	if userID, ok := meta["user_id"]; ok {
-		v1 := meta["service"] + "_" + meta["method"]
+		v1 := string(meta["service"]) + "_" + string(meta["method"])
 		res.Valid = srv.Enforcer.Enforce(userID, v1)
 		if !res.Valid {
 			return errors.New("您没有权限访问")
