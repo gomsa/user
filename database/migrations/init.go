@@ -160,8 +160,8 @@ func CreateUser() {
 func addRole(userID string, role string) {
 	h := hander.Casbin{casbin.Enforcer}
 	req := &casbinPB.Request{
-		UserID: userID,
-		Role:   role,
+		Group: userID,
+		Role:  role,
 	}
 	res := &casbinPB.Response{}
 	err := h.AddRole(context.TODO(), req, res)
