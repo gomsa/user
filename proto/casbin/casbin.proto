@@ -34,7 +34,7 @@ message Request{
 
 message Response{
     bool valid = 1;
-    string userID = 2;
+    string group = 2;
     string role = 3;
     repeated string roles = 4;
     Permission permission = 5;
