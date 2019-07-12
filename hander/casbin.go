@@ -26,18 +26,26 @@ func (srv *Casbin) AddPermission(ctx context.Context, req *pb.Request, res *pb.R
 
 // DeletePermissions 根据角色名删除权限
 func (srv *Casbin) DeletePermissions(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	res.Valid = srv.Enforcer.DeletePermissionsForUser(req.Role)
+	if res.Role == "" {
+		res.Valid = srv.Enforcer.DeletePermissionsForUser(req.Role)
+	} else {
+		return errors.New("没有找到需要操作的用户或角色")
+	}
 	return err
 }
 
 // UpdatePermissions 重新设置角色所有权限
 func (srv *Casbin) UpdatePermissions(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	res.Valid = srv.Enforcer.DeletePermissionsForUser(req.Role)
-	for _, permission := range req.Permissions {
-		res.Valid = srv.Enforcer.AddPermissionForUser(req.Role, []string{permission.Service, permission.Method}...)
-		if !res.Valid {
-			return errors.New("添加权限失败")
+	if res.Role == "" {
+		res.Valid = srv.Enforcer.DeletePermissionsForUser(req.Role)
+		for _, permission := range req.Permissions {
+			res.Valid = srv.Enforcer.AddPermissionForUser(req.Role, []string{permission.Service, permission.Method}...)
+			if !res.Valid {
+				return errors.New("添加权限失败")
+			}
 		}
+	} else {
+		return errors.New("没有找到需要操作的用户或角色")
 	}
 	return err
 }
@@ -67,18 +75,26 @@ func (srv *Casbin) AddRole(ctx context.Context, req *pb.Request, res *pb.Respons
 
 // DeleteRoles 根据角色名删除权限
 func (srv *Casbin) DeleteRoles(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	res.Valid = srv.Enforcer.DeleteRolesForUser(req.Group)
+	if req.Group == "" {
+		res.Valid = srv.Enforcer.DeleteRolesForUser(req.Group)
+	} else {
+		return errors.New("没有找到需要操作的用户或角色")
+	}
 	return err
 }
 
 // UpdateRoles 重新设置用户所有权限
 func (srv *Casbin) UpdateRoles(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	res.Valid = srv.Enforcer.DeleteRolesForUser(req.Group)
-	for _, role := range req.Roles {
-		res.Valid = srv.Enforcer.AddRoleForUser(req.Group, role)
-		if !res.Valid {
-			return errors.New("添加角色失败")
+	if req.Group == "" {
+		res.Valid = srv.Enforcer.DeleteRolesForUser(req.Group)
+		for _, role := range req.Roles {
+			res.Valid = srv.Enforcer.AddRoleForUser(req.Group, role)
+			if !res.Valid {
+				return errors.New("添加角色失败")
+			}
 		}
+	} else {
+		return errors.New("没有找到需要操作的用户或角色")
 	}
 	return err
 }
