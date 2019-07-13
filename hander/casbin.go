@@ -6,6 +6,7 @@ import (
 
 	"github.com/casbin/casbin"
 	"github.com/micro/go-micro/metadata"
+	"github.com/micro/go-micro/util/log"
 
 	pb "github.com/gomsa/user/proto/casbin"
 )
@@ -36,6 +37,8 @@ func (srv *Casbin) DeletePermissions(ctx context.Context, req *pb.Request, res *
 
 // UpdatePermissions 重新设置角色所有权限
 func (srv *Casbin) UpdatePermissions(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+
+	log.Log(req)
 	if res.Role != "" {
 		res.Valid = srv.Enforcer.DeletePermissionsForUser(req.Role)
 		for _, permission := range req.Permissions {
