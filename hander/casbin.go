@@ -6,7 +6,6 @@ import (
 
 	"github.com/casbin/casbin"
 	"github.com/micro/go-micro/metadata"
-	"github.com/micro/go-micro/util/log"
 
 	pb "github.com/gomsa/user/proto/casbin"
 )
@@ -27,7 +26,7 @@ func (srv *Casbin) AddPermission(ctx context.Context, req *pb.Request, res *pb.R
 
 // DeletePermissions 根据角色名删除权限
 func (srv *Casbin) DeletePermissions(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	if res.Role != "" {
+	if req.Role != "" {
 		res.Valid = srv.Enforcer.DeletePermissionsForUser(req.Role)
 	} else {
 		return errors.New("没有找到需要操作的用户或角色")
@@ -37,9 +36,7 @@ func (srv *Casbin) DeletePermissions(ctx context.Context, req *pb.Request, res *
 
 // UpdatePermissions 重新设置角色所有权限
 func (srv *Casbin) UpdatePermissions(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-
-	log.Log(req)
-	if res.Role != "" {
+	if req.Role != "" {
 		res.Valid = srv.Enforcer.DeletePermissionsForUser(req.Role)
 		for _, permission := range req.Permissions {
 			res.Valid = srv.Enforcer.AddPermissionForUser(req.Role, []string{permission.Service, permission.Method}...)
