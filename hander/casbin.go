@@ -66,7 +66,7 @@ func (srv *Casbin) GetPermissions(ctx context.Context, req *pb.Request, res *pb.
 
 // AddRole 添加权限
 func (srv *Casbin) AddRole(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	res.Valid = srv.Enforcer.AddRoleForUser(req.Group, req.Role)
+	res.Valid = srv.Enforcer.AddRoleForUser(req.Label, req.Role)
 	if !res.Valid {
 		return errors.New("添加角色失败")
 	}
@@ -75,8 +75,8 @@ func (srv *Casbin) AddRole(ctx context.Context, req *pb.Request, res *pb.Respons
 
 // DeleteRoles 根据角色名删除权限
 func (srv *Casbin) DeleteRoles(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	if req.Group != "" {
-		res.Valid = srv.Enforcer.DeleteRolesForUser(req.Group)
+	if req.Label != "" {
+		res.Valid = srv.Enforcer.DeleteRolesForUser(req.Label)
 	} else {
 		return errors.New("没有找到需要操作的用户或角色")
 	}
@@ -85,10 +85,10 @@ func (srv *Casbin) DeleteRoles(ctx context.Context, req *pb.Request, res *pb.Res
 
 // UpdateRoles 重新设置用户所有权限
 func (srv *Casbin) UpdateRoles(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	if req.Group != "" {
-		res.Valid = srv.Enforcer.DeleteRolesForUser(req.Group)
+	if req.Label != "" {
+		res.Valid = srv.Enforcer.DeleteRolesForUser(req.Label)
 		for _, role := range req.Roles {
-			res.Valid = srv.Enforcer.AddRoleForUser(req.Group, role)
+			res.Valid = srv.Enforcer.AddRoleForUser(req.Label, role)
 			if !res.Valid {
 				return errors.New("添加角色失败")
 			}
@@ -101,7 +101,7 @@ func (srv *Casbin) UpdateRoles(ctx context.Context, req *pb.Request, res *pb.Res
 
 // GetRoles 获取权限
 func (srv *Casbin) GetRoles(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	res.Roles, err = srv.Enforcer.GetRolesForUser(req.Group)
+	res.Roles, err = srv.Enforcer.GetRolesForUser(req.Label)
 	return err
 }
 
