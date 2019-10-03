@@ -9,5 +9,5 @@
 ## auth 认证服务
 - Auth              用户授权
 - ValidateToken     授权认证
-**高危-内部调用**
+- (**高危-内部调用**)
 - AuthById          通过用户ID获取授权
