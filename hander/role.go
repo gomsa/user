@@ -24,9 +24,9 @@ func (srv *Role) All(ctx context.Context, req *pb.Request, res *pb.Response) (er
 }
 
 // List 获取所有角色
-func (srv *Role) List(ctx context.Context, req *pb.ListQuery, res *pb.Response) (err error) {
-	roles, err := srv.Repo.List(req)
-	total, err := srv.Repo.Total(req)
+func (srv *Role) List(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	roles, err := srv.Repo.List(req.ListQuery)
+	total, err := srv.Repo.Total(req.ListQuery)
 	if err != nil {
 		return err
 	}
@@ -36,8 +36,8 @@ func (srv *Role) List(ctx context.Context, req *pb.ListQuery, res *pb.Response) 
 }
 
 // Get 获取角色
-func (srv *Role) Get(ctx context.Context, req *pb.Role, res *pb.Response) (err error) {
-	role, err := srv.Repo.Get(req)
+func (srv *Role) Get(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	role, err := srv.Repo.Get(req.Role)
 	if err != nil {
 		return err
 	}
@@ -46,8 +46,8 @@ func (srv *Role) Get(ctx context.Context, req *pb.Role, res *pb.Response) (err e
 }
 
 // Create 创建角色
-func (srv *Role) Create(ctx context.Context, req *pb.Role, res *pb.Response) (err error) {
-	_, err = srv.Repo.Create(req)
+func (srv *Role) Create(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	_, err = srv.Repo.Create(req.Role)
 	if err != nil {
 		res.Valid = false
 		return fmt.Errorf("添加角色失败")
@@ -57,8 +57,8 @@ func (srv *Role) Create(ctx context.Context, req *pb.Role, res *pb.Response) (er
 }
 
 // Update 更新角色
-func (srv *Role) Update(ctx context.Context, req *pb.Role, res *pb.Response) (err error) {
-	valid, err := srv.Repo.Update(req)
+func (srv *Role) Update(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	valid, err := srv.Repo.Update(req.Role)
 	if err != nil {
 		res.Valid = false
 		return fmt.Errorf("更新角色失败")
@@ -68,8 +68,8 @@ func (srv *Role) Update(ctx context.Context, req *pb.Role, res *pb.Response) (er
 }
 
 // Delete 删除角色
-func (srv *Role) Delete(ctx context.Context, req *pb.Role, res *pb.Response) (err error) {
-	valid, err := srv.Repo.Delete(req)
+func (srv *Role) Delete(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	valid, err := srv.Repo.Delete(req.Role)
 	if err != nil {
 		res.Valid = false
 		return fmt.Errorf("删除角色失败")
