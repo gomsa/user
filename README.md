@@ -1,4 +1,4 @@
-# user-api 用户api
+# user 用户
 ## user 用户服务
 - Exist     查询用户
 - List      用户列表
