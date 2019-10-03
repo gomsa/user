@@ -4,7 +4,7 @@ import (
 	// 公共引入
 	micro "github.com/micro/go-micro"
 	"github.com/micro/go-micro/util/log"
-	k8s "github.com/micro/kubernetes/go/micro"
+	k8s "github.com/micro/examples/kubernetes/go/micro"
 
 	// 执行数据迁移
 	_ "github.com/gomsa/user/database/migrations"

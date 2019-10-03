@@ -16,15 +16,15 @@ type User struct {
 }
 
 // Exist 用户是否存在
-func (srv *User) Exist(ctx context.Context, req *pb.User, res *pb.Response) (err error) {
-	res.Valid = srv.Repo.Exist(req)
+func (srv *User) Exist(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	res.Valid = srv.Repo.Exist(req.User)
 	return err
 }
 
 // List 获取所有用户
-func (srv *User) List(ctx context.Context, req *pb.ListQuery, res *pb.Response) (err error) {
-	users, err := srv.Repo.List(req)
-	total, err := srv.Repo.Total(req)
+func (srv *User) List(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	users, err := srv.Repo.List(req.ListQuery)
+	total, err := srv.Repo.Total(req.ListQuery)
 	if err != nil {
 		return err
 	}
@@ -34,8 +34,8 @@ func (srv *User) List(ctx context.Context, req *pb.ListQuery, res *pb.Response) 
 }
 
 // Get 获取用户
-func (srv *User) Get(ctx context.Context, req *pb.User, res *pb.Response) (err error) {
-	user, err := srv.Repo.Get(req)
+func (srv *User) Get(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	user, err := srv.Repo.Get(req.User)
 	if err != nil {
 		return err
 	}
@@ -44,14 +44,14 @@ func (srv *User) Get(ctx context.Context, req *pb.User, res *pb.Response) (err e
 }
 
 // Create 创建用户
-func (srv *User) Create(ctx context.Context, req *pb.User, res *pb.Response) (err error) {
+func (srv *User) Create(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
 	// Generates a hashed version of our password
-	hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.User.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
 	}
-	req.Password = string(hashedPass)
-	user, err := srv.Repo.Create(req)
+	req.User.Password = string(hashedPass)
+	user, err := srv.Repo.Create(req.User)
 	if err != nil {
 		res.Valid = false
 		return fmt.Errorf("创建用户失败")
@@ -62,16 +62,16 @@ func (srv *User) Create(ctx context.Context, req *pb.User, res *pb.Response) (er
 }
 
 // Update 更新用户
-func (srv *User) Update(ctx context.Context, req *pb.User, res *pb.Response) (err error) {
+func (srv *User) Update(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
 	// 密码不为空时才可以修改密码
-	if req.Password != "" {
-		hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if req.User.Password != "" {
+		hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.User.Password), bcrypt.DefaultCost)
 		if err != nil {
 			return err
 		}
-		req.Password = string(hashedPass)
+		req.User.Password = string(hashedPass)
 	}
-	valid, err := srv.Repo.Update(req)
+	valid, err := srv.Repo.Update(req.User)
 	if err != nil {
 		res.Valid = false
 		return fmt.Errorf("更新用户失败")
@@ -81,8 +81,8 @@ func (srv *User) Update(ctx context.Context, req *pb.User, res *pb.Response) (er
 }
 
 // Delete 删除用户用户
-func (srv *User) Delete(ctx context.Context, req *pb.User, res *pb.Response) (err error) {
-	valid, err := srv.Repo.Delete(req)
+func (srv *User) Delete(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	valid, err := srv.Repo.Delete(req.User)
 	if err != nil {
 		res.Valid = false
 		return fmt.Errorf("删除用户失败")

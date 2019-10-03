@@ -4,18 +4,18 @@ package user;
 
 service Users {
     // 用过 用户名、邮箱、手机 查询用户是否存在
-    rpc Exist(User) returns (Response) {}
+    rpc Exist(Request) returns (Response) {}
 
     // 获取用户列表
-    rpc List(ListQuery) returns (Response) {}
+    rpc List(Request) returns (Response) {}
     // 根据 唯一 获取用户
-    rpc Get(User) returns (Response) {}
+    rpc Get(Request) returns (Response) {}
     // 创建用户
-    rpc Create(User) returns (Response) {}
+    rpc Create(Request) returns (Response) {}
     // 更新用户
-    rpc Update(User) returns (Response) {}
+    rpc Update(Request) returns (Response) {}
     // 删除用户
-    rpc Delete(User) returns (Response) {}
+    rpc Delete(Request) returns (Response) {}
     // 微服务之间调用
 }
 
@@ -32,19 +32,21 @@ message User {
     string updated_at = 10;
 }
 message ListQuery{
-    int64 limit=1; //返回数量
-    int64 page=2; //页面
-    string sort=3; // 排序
+    int64 limit=1;          // 返回数量
+    int64 page=2;           // 页面
+    string sort=3;          // 排序
     string username = 4;
     string mobile = 5;
     string email = 6;
 }
 message Request {
+    ListQuery list_query = 1;           // 列表分页请求
+    User user = 2;                      // 用户
 }
 
 message Response {
-    User user = 1;
-    repeated User users = 2;
-    int64 total = 3;
-    bool valid = 4;
+    bool valid = 1;
+    User user = 2;
+    repeated User users = 3;
+    int64 total = 4;
 }

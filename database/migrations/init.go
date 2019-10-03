@@ -141,10 +141,12 @@ func CreateUser() {
 	password := env.Getenv("ADMIN_PASSWORD", "admin123")
 	repo := &service.UserRepository{db.DB}
 	h := hander.User{repo}
-	req := &userPB.User{
-		Username: `admin`,
-		Password: password,
-		Origin:   `user`,
+	req := &userPB.Request{
+		User: &userPB.User{
+			Username: `admin`,
+			Password: password,
+			Origin:   `user`,
+		},
 	}
 	res := &userPB.Response{}
 	err := h.Create(context.TODO(), req, res)
