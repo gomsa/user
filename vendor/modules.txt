@@ -2,8 +2,6 @@
 github.com/Knetic/govaluate
 # github.com/armon/go-metrics v0.0.0-20190430140413-ec5e00d3c878
 github.com/armon/go-metrics
-# github.com/axgle/mahonia v0.0.0-20180208002826-3358181d7394
-github.com/axgle/mahonia
 # github.com/casbin/casbin v1.9.1
 github.com/casbin/casbin
 github.com/casbin/casbin/effect
@@ -38,7 +36,6 @@ github.com/golang/protobuf/ptypes/timestamp
 # github.com/gomsa/tools v0.0.0-20190808000024-44c2fc0e494a
 github.com/gomsa/tools/config
 github.com/gomsa/tools/env
-github.com/gomsa/tools/uitl
 github.com/gomsa/tools/gorm
 # github.com/google/btree v1.0.0
 github.com/google/btree
