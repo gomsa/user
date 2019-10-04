@@ -125,10 +125,12 @@ func CreateRole() {
 	// 角色服务实现
 	repo := &service.RoleRepository{db.DB}
 	h := hander.Role{repo}
-	req := &rolePB.Role{
-		Label:       `root`,
-		Name:        `超级管理员`,
-		Description: `超级管理员拥有全部权限`,
+	req := &rolePB.Request{
+		Role: &rolePB.Role{
+			Label:       `root`,
+			Name:        `超级管理员`,
+			Description: `超级管理员拥有全部权限`,
+		},
 	}
 	res := &rolePB.Response{}
 	err := h.Create(context.TODO(), req, res)

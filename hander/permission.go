@@ -14,16 +14,16 @@ type Permission struct {
 }
 
 // UpdateOrCreate 创建或者更新
-func (srv *Permission) UpdateOrCreate(ctx context.Context, req *pb.Permission, res *pb.Response) (err error) {
+func (srv *Permission) UpdateOrCreate(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
 	p := pb.Permission{}
-	p.Service = req.Service
-	p.Method = req.Method
+	p.Service = req.Permission.Service
+	p.Method = req.Permission.Method
 	permission, err := srv.Repo.Get(&p)
 	if permission == nil {
-		_, err = srv.Repo.Create(req)
+		_, err = srv.Repo.Create(req.Permission)
 	} else {
-		req.Id = permission.Id
-		_, err = srv.Repo.Update(req)
+		req.Permission.Id = permission.Id
+		_, err = srv.Repo.Update(req.Permission)
 	}
 	return err
 }
@@ -39,9 +39,9 @@ func (srv *Permission) All(ctx context.Context, req *pb.Request, res *pb.Respons
 }
 
 // List 获取所有权限
-func (srv *Permission) List(ctx context.Context, req *pb.ListQuery, res *pb.Response) (err error) {
-	permissions, err := srv.Repo.List(req)
-	total, err := srv.Repo.Total(req)
+func (srv *Permission) List(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	permissions, err := srv.Repo.List(req.ListQuery)
+	total, err := srv.Repo.Total(req.ListQuery)
 	if err != nil {
 		return err
 	}
@@ -51,8 +51,8 @@ func (srv *Permission) List(ctx context.Context, req *pb.ListQuery, res *pb.Resp
 }
 
 // Get 获取权限
-func (srv *Permission) Get(ctx context.Context, req *pb.Permission, res *pb.Response) (err error) {
-	permission, err := srv.Repo.Get(req)
+func (srv *Permission) Get(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	permission, err := srv.Repo.Get(req.Permission)
 	if err != nil {
 		return err
 	}
@@ -61,8 +61,8 @@ func (srv *Permission) Get(ctx context.Context, req *pb.Permission, res *pb.Resp
 }
 
 // Create 创建权限
-func (srv *Permission) Create(ctx context.Context, req *pb.Permission, res *pb.Response) (err error) {
-	_, err = srv.Repo.Create(req)
+func (srv *Permission) Create(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	_, err = srv.Repo.Create(req.Permission)
 	if err != nil {
 		res.Valid = false
 		return fmt.Errorf("添加权限失败")
@@ -72,8 +72,8 @@ func (srv *Permission) Create(ctx context.Context, req *pb.Permission, res *pb.R
 }
 
 // Update 更新权限
-func (srv *Permission) Update(ctx context.Context, req *pb.Permission, res *pb.Response) (err error) {
-	valid, err := srv.Repo.Update(req)
+func (srv *Permission) Update(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	valid, err := srv.Repo.Update(req.Permission)
 	if err != nil {
 		res.Valid = false
 		return fmt.Errorf("更新权限失败")
@@ -83,8 +83,8 @@ func (srv *Permission) Update(ctx context.Context, req *pb.Permission, res *pb.R
 }
 
 // Delete 删除权限
-func (srv *Permission) Delete(ctx context.Context, req *pb.Permission, res *pb.Response) (err error) {
-	valid, err := srv.Repo.Delete(req)
+func (srv *Permission) Delete(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	valid, err := srv.Repo.Delete(req.Permission)
 	if err != nil {
 		res.Valid = false
 		return fmt.Errorf("删除权限失败")

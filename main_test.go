@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	_ "github.com/gomsa/user/database/migrations"
@@ -16,19 +17,23 @@ import (
 )
 
 func TestFrontPermitUpdateOrCreate(t *testing.T) {
-	req := &frontPermitPB.FrontPermit{
-		App: "ui", Service: "role", Method: "permission", Name: "角色权限", Description: "管理角色权限。",
+	req := &frontPermitPB.Request{
+		FrontPermit: &frontPermitPB.FrontPermit{
+			App: "ui", Service: "role", Method: "permission", Name: "角色权限", Description: "管理角色权限。",
+		},
 	}
 	repo := &service.FrontPermitRepository{db.DB}
 	h := hander.FrontPermit{repo}
 	res := &frontPermitPB.Response{}
 	err := h.UpdateOrCreate(context.TODO(), req, res)
-	// fmt.Println(req, res, err)
+	fmt.Println(req, res, err)
 	t.Log(req, res, err)
 }
 func TestPermissionsUpdateOrCreate(t *testing.T) {
-	req := &permissionPB.Permission{
-		Service: "user-api", Method: "Auth.Auth1", Name: "用户授权3", Description: "用户登录授权返回 token 权限。",
+	req := &permissionPB.Request{
+		Permission: &permissionPB.Permission{
+			Service: "user-api", Method: "Auth.Auth1", Name: "用户授权3", Description: "用户登录授权返回 token 权限。",
+		},
 	}
 	repo := &service.PermissionRepository{db.DB}
 	h := hander.Permission{repo}
