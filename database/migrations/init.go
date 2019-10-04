@@ -146,7 +146,7 @@ func CreateUser() {
 	req := &userPB.Request{
 		User: &userPB.User{
 			Username: `admin`,
-			Password: password,
+			Password: string(password),
 			Origin:   `user`,
 		},
 	}
