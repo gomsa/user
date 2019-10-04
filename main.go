@@ -2,9 +2,9 @@ package main
 
 import (
 	// 公共引入
+	k8s "github.com/micro/examples/kubernetes/go/micro"
 	micro "github.com/micro/go-micro"
 	"github.com/micro/go-micro/util/log"
-	k8s "github.com/micro/examples/kubernetes/go/micro"
 
 	// 执行数据迁移
 	_ "github.com/gomsa/user/database/migrations"
@@ -51,8 +51,8 @@ func main() {
 	// 权限管理服务实现
 	casbinPB.RegisterCasbinHandler(srv.Server(), &hander.Casbin{casbin.Enforcer})
 	// Run the server
+	log.Log("serviser run ...")
 	if err := srv.Run(); err != nil {
 		log.Log(err)
 	}
-	log.Log("serviser run ...")
 }
