@@ -35,6 +35,7 @@ github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
 # github.com/gomsa/tools v0.0.0-20190808000024-44c2fc0e494a
 github.com/gomsa/tools/config
+github.com/gomsa/tools/k8s/client
 github.com/gomsa/tools/env
 github.com/gomsa/tools/gorm
 # github.com/google/btree v1.0.0
@@ -155,8 +156,12 @@ github.com/micro/go-micro/transport/grpc/proto
 # github.com/micro/go-plugins v1.1.2-0.20190710094942-bf407858372c
 github.com/micro/go-plugins/client/selector/static
 github.com/micro/go-plugins/registry/kubernetes
+github.com/micro/go-plugins/broker/grpc
+github.com/micro/go-plugins/client/grpc
+github.com/micro/go-plugins/server/grpc
 github.com/micro/go-plugins/registry/kubernetes/client
 github.com/micro/go-plugins/registry/kubernetes/client/watch
+github.com/micro/go-plugins/broker/grpc/proto
 github.com/micro/go-plugins/registry/kubernetes/client/api
 # github.com/micro/mdns v0.3.0
 github.com/micro/mdns
