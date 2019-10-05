@@ -72,7 +72,6 @@ func (srv *Auth) Auth(ctx context.Context, req *pb.Request, res *pb.Response) (e
 		}
 		res.Token = t
 	}
-	log.Log(ctx, user, req, res)
 	return nil
 }
 
