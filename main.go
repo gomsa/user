@@ -51,8 +51,8 @@ func main() {
 	// 权限管理服务实现
 	casbinPB.RegisterCasbinHandler(srv.Server(), &hander.Casbin{casbin.Enforcer})
 	// Run the server
-	log.Log("serviser run ...")
 	if err := srv.Run(); err != nil {
 		log.Log(err)
 	}
+	log.Log("serviser run ...")
 }

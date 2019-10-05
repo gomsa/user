@@ -5,11 +5,7 @@ import (
 )
 
 // Conf 配置
-var Conf config.Config
-
-func init() {
-	Conf = config.Config{
-		Service: "user",
-		Version: "latest",
-	}
+var Conf config.Config = config.Config{
+	Service: "user",
+	Version: "latest",
 }
