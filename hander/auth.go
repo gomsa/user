@@ -43,7 +43,6 @@ func (srv *Auth) AuthById(ctx context.Context, req *pb.Request, res *pb.Response
 // Auth 授权认证
 // 返回token
 func (srv *Auth) Auth(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	log.Log(ctx)
 	log.Log(req, res)
 	// 在 part3 中直接传参 &pb.User 去查找用户
 	// 会导致 req 的值完全是数据库中的记录值
