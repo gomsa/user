@@ -90,6 +90,5 @@ func (srv *Auth) ValidateToken(ctx context.Context, req *pb.Request, res *pb.Res
 	}
 	res.User = claims.User
 	res.Valid = true
-	log.Log(ctx, req, res)
 	return err
 }
