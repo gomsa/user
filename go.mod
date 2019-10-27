@@ -3,14 +3,13 @@ module github.com/gomsa/user
 go 1.12
 
 require (
-	github.com/alexbrainman/odbc v0.0.0-20190102080306-cf37ce290779 // indirect
 	github.com/casbin/casbin v1.9.1
 	github.com/casbin/gorm-adapter v1.0.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/gogo/protobuf v1.3.1
 	github.com/golang/protobuf v1.3.2
-	github.com/gomsa/tools v0.0.0-20191026003641-26bf724d0699
+	github.com/gomsa/tools v0.0.0-20191027032723-670231029646
 	github.com/jinzhu/gorm v1.9.11
 	github.com/micro/examples v0.2.0
 	github.com/micro/go-log v0.1.0
