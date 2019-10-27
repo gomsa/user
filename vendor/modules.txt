@@ -56,7 +56,7 @@ github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
 github.com/golang/protobuf/protoc-gen-go/descriptor
-# github.com/gomsa/tools v0.0.0-20191027032327-0496ba1abdf4
+# github.com/gomsa/tools v0.0.0-20191027032723-670231029646
 github.com/gomsa/tools/config
 github.com/gomsa/tools/k8s/client
 github.com/gomsa/tools/env

@@ -32,8 +32,5 @@ func Connection(conf *Config) (db *gorm.DB, err error) {
 	if conf.Driver == "postgres" {
 		return postgresConnection(conf)
 	}
-	if conf.Driver == "odbc" {
-		return odbcConnection(conf)
-	}
 	return db, fmt.Errorf(" '%v' driver doesn't exist. ", conf.Driver)
 }
