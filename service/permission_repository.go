@@ -5,9 +5,10 @@ import (
 	// 公共引入
 	"github.com/micro/go-log"
 
-	pb "github.com/gomsa/user/proto/permission"
-
+	"github.com/gomsa/tools/uitl"
 	"github.com/jinzhu/gorm"
+
+	pb "github.com/gomsa/user/proto/permission"
 )
 
 //PRepository 仓库接口
@@ -17,8 +18,8 @@ type PRepository interface {
 	Update(permission *pb.Permission) (bool, error)
 	Get(permission *pb.Permission) (*pb.Permission, error)
 	All(req *pb.Request) ([]*pb.Permission, error)
-	List(req *pb.ListQuery) ([]*pb.Permission, error)
-	Total(req *pb.ListQuery) (int64, error)
+	List(listQuery *pb.ListQuery, per *pb.Permission) ([]*pb.Permission, error)
+	Total(req *pb.Permission) (int64, error)
 }
 
 // PermissionRepository 权限仓库
@@ -36,31 +37,20 @@ func (repo *PermissionRepository) All(req *pb.Request) (permissions []*pb.Permis
 }
 
 // List 获取所有权限信息
-func (repo *PermissionRepository) List(req *pb.ListQuery) (permissions []*pb.Permission, err error) {
+func (repo *PermissionRepository) List(listQuery *pb.ListQuery, per *pb.Permission) (permissions []*pb.Permission, err error) {
 	db := repo.DB
-	// 分页
-	var limit, offset int64
-	if req.Limit > 0 {
-		limit = req.Limit
-	} else {
-		limit = 10
-	}
-	if req.Page > 1 {
-		offset = (req.Page - 1) * limit
-	} else {
-		offset = -1
-	}
-
+	// 计算分页
+	limit, offset := uitl.Page(listQuery.Limit, listQuery.Page)
 	// 排序
 	var sort string
-	if req.Sort != "" {
-		sort = req.Sort
+	if listQuery.Sort != "" {
+		sort = listQuery.Sort
 	} else {
 		sort = "id desc"
 	}
 	// 查询条件
-	if req.Name != "" {
-		db = db.Where("name like ?", "%"+req.Name+"%")
+	if per.Name != "" {
+		db = db.Where("name like ?", "%"+per.Name+"%")
 	}
 	if err := db.Order(sort).Limit(limit).Offset(offset).Find(&permissions).Error; err != nil {
 		log.Log(err)
@@ -70,7 +60,7 @@ func (repo *PermissionRepository) List(req *pb.ListQuery) (permissions []*pb.Per
 }
 
 // Total 获取所有权限查询总量
-func (repo *PermissionRepository) Total(req *pb.ListQuery) (total int64, err error) {
+func (repo *PermissionRepository) Total(req *pb.Permission) (total int64, err error) {
 	permissions := []pb.Permission{}
 	db := repo.DB
 	// 查询条件

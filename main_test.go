@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"testing"
 
 	_ "github.com/gomsa/user/database/migrations"
@@ -26,7 +25,7 @@ func TestFrontPermitUpdateOrCreate(t *testing.T) {
 	h := hander.FrontPermit{repo}
 	res := &frontPermitPB.Response{}
 	err := h.UpdateOrCreate(context.TODO(), req, res)
-	fmt.Println(req, res, err)
+	// fmt.Println(req, res, err)
 	t.Log(req, res, err)
 }
 func TestPermissionsUpdateOrCreate(t *testing.T) {

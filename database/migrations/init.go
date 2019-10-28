@@ -80,6 +80,8 @@ func permission() {
 			method varchar(64) DEFAULT NULL,
 			name varchar(64) DEFAULT NULL,
 			description varchar(128) DEFAULT NULL,
+			auth tinyint(1) DEFAULT 0,
+			policy tinyint(1) DEFAULT 0,
 			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 			PRIMARY KEY (id),
