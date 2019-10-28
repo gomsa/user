@@ -11,7 +11,6 @@ require (
 	github.com/gogo/protobuf v1.3.1
 	github.com/golang/protobuf v1.3.2
 	github.com/gomsa/tools v0.0.0-20191027032723-670231029646
-	github.com/gomsa/user-api v0.0.0-20191027085745-f2afdedd8abf // indirect
 	github.com/jinzhu/gorm v1.9.11
 	github.com/micro/examples v0.2.0
 	github.com/micro/go-log v0.1.0

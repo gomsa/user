@@ -1,5 +1,7 @@
 # github.com/Knetic/govaluate v3.0.1-0.20171022003610-9aa49832a739+incompatible
 github.com/Knetic/govaluate
+# github.com/axgle/mahonia v0.0.0-20180208002826-3358181d7394
+github.com/axgle/mahonia
 # github.com/casbin/casbin v1.9.1
 github.com/casbin/casbin
 github.com/casbin/casbin/effect
@@ -61,6 +63,7 @@ github.com/gomsa/tools/config
 github.com/gomsa/tools/k8s/client
 github.com/gomsa/tools/env
 github.com/gomsa/tools/gorm
+github.com/gomsa/tools/uitl
 # github.com/google/uuid v1.1.1
 github.com/google/uuid
 # github.com/jinzhu/gorm v1.9.11
