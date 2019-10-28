@@ -42,8 +42,6 @@ func user() {
 			origin varchar(32) DEFAULT NULL,
 			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-			xxx_unrecognized varbinary(255) DEFAULT NULL,
-			xxx_sizecache int(11) DEFAULT NULL,
 			PRIMARY KEY (id)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 		`)
@@ -64,8 +62,6 @@ func frontPermit() {
 			description varchar(128) DEFAULT NULL,
 			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-			xxx_unrecognized varbinary(255) DEFAULT NULL,
-			xxx_sizecache int(11) DEFAULT NULL,
 			PRIMARY KEY (id),
 			UNIQUE KEY service_OR_method (service,method)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -86,8 +82,6 @@ func permission() {
 			description varchar(128) DEFAULT NULL,
 			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-			xxx_unrecognized varbinary(255) DEFAULT NULL,
-			xxx_sizecache int(11) DEFAULT NULL,
 			PRIMARY KEY (id),
 			UNIQUE KEY service_OR_method (service,method)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -107,8 +101,6 @@ func role() {
 			description varchar(128) DEFAULT NULL,
 			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-			xxx_unrecognized varbinary(255) DEFAULT NULL,
-			xxx_sizecache int(11) DEFAULT NULL,
 			PRIMARY KEY (id),
 			UNIQUE KEY label (label)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
