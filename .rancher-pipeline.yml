@@ -15,18 +15,18 @@ stages:
       dockerfilePath: ./rancher/Dockerfile
       buildContext: .
       tag: user:${CICD_EXECUTION_SEQUENCE}
-- name: Mariadb
-  steps:
-  - applyAppConfig:
-      catalogTemplate: cattle-global-data:library-mariadb
-      version: 5.0.9
-      answers:
-        db.name: user
-        db.user: user
-        service.type: ClusterIP
-        slave.replicas: "2"
-      name: user
-      targetNamespace: srv
+# - name: Mariadb
+#   steps:
+#   - applyAppConfig:
+#       catalogTemplate: cattle-global-data:library-mariadb
+#       version: 5.0.9
+#       answers:
+#         db.name: user
+#         db.user: user
+#         service.type: ClusterIP
+#         slave.replicas: "2"
+#       name: user
+#       targetNamespace: srv
 - name: Deploy
   steps:
   - applyYamlConfig:
